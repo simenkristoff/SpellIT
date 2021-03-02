@@ -1,0 +1,95 @@
+{
+	"turnCount": 1,
+	"players": [
+		{
+			"name": "Player 1",
+			"letters": [
+				{
+					"character": "D",
+					"points": 2
+				},
+				{
+					"character": "U",
+					"points": 1
+				},
+				{
+					"character": "A",
+					"points": 1
+				},
+				{
+					"character": "Y",
+					"points": 4
+				},
+				{
+					"character": "H",
+					"points": 4
+				},
+				{
+					"character": "O",
+					"points": 1
+				},
+				{
+					"character": "E",
+					"points": 1
+				}
+			],
+			"points": 5
+		},
+		{
+			"name": "Player 2",
+			"letters": [
+				{
+					"character": "V",
+					"points": 4
+				},
+				{
+					"character": "I",
+					"points": 1
+				},
+				{
+					"character": "G",
+					"points": 2
+				},
+				{
+					"character": "E",
+					"points": 1
+				},
+				{
+					"character": "L",
+					"points": 1
+				},
+				{
+					"character": "E",
+					"points": 1
+				},
+				{
+					"character": "T",
+					"points": 1
+				}
+			],
+			"points": 0
+		}
+	],
+	"placedTiles": [
+		{
+			"row": 7,
+			"col": 7,
+			"tileType": "STAR",
+			"letter": {
+				"character": "H",
+				"points": 4
+			},
+			"processed": false
+		},
+		{
+			"row": 7,
+			"col": 8,
+			"tileType": "DEFAULT",
+			"letter": {
+				"character": "A",
+				"points": 1
+			},
+			"processed": false
+		}
+	]
+}

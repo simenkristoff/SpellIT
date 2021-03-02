@@ -1,0 +1,198 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>tdt4100-v2021</groupId>
+  <artifactId>spellit</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <name>SpellIt</name>
+  <description>Simple Scrabble application</description>
+  
+  <modules>
+  	<module>core</module>
+  	<module>ui</module>
+  </modules>
+  
+  <properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	<java.version>14</java.version>
+	<maven.compiler.source>${java.version}</maven.compiler.source>
+	<maven.compiler.target>${java.version}</maven.compiler.target>
+</properties>
+  
+  
+  <dependencies>
+  	<!--  JavaFX FXML -->
+  	<dependency>
+  		<groupId>org.openjfx</groupId>
+  		<artifactId>javafx-fxml</artifactId>
+  		<version>16-ea+5</version>
+  	</dependency>
+  	
+  	<!-- JUnit 5 -->
+  	<dependency>
+  		<groupId>org.junit.jupiter</groupId>
+  		<artifactId>junit-jupiter-engine</artifactId>
+  		<version>5.7.0</version>
+  	</dependency>
+  	
+  	<!-- Mockito -->
+	<dependency>
+		<groupId>org.mockito</groupId>
+		<artifactId>mockito-core</artifactId>
+		<version>3.5.10</version>
+	</dependency>
+  </dependencies>
+  
+  <build>
+  	<plugins>
+
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.8.1</version>
+  			<configuration>
+  				<encoding>${project.build.sourceEncoding}</encoding>
+				<release>${java.version}</release>
+				<source>${maven.compiler.source}</source>
+				<target>${maven.compiler.target}</target>
+  				<compilerArgs>
+  					--enable-preview
+  				</compilerArgs>
+  				<options>
+	  				<option>-Dfile.encoding=UTF-18</option>
+	  			</options>
+  			</configuration>
+  			
+  		</plugin>
+  		
+  		<!-- Running tests -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>3.0.0-M5</version>
+		</plugin>
+		
+  		<plugin>
+  			<artifactId>maven-failsafe-plugin</artifactId>
+  			<version>3.0.0-M5</version>
+  			<configuration>
+  				<argLine>--enable-preview</argLine>
+  			</configuration>
+  		</plugin>
+
+		<!-- Run the Checkstyle code quality tool -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-checkstyle-plugin</artifactId>
+			<version>3.1.1</version>
+			<dependencies>
+				<dependency>
+					<groupId>com.puppycrawl.tools</groupId>
+					<artifactId>checkstyle</artifactId>
+					<version>8.36.1</version>
+				</dependency>
+			</dependencies>
+			<configuration>
+				<configLocation>config/checkstyle/google_checks.xml</configLocation>
+				<encoding>${project.build.sourceEncoding}</encoding>
+				<consoleOutput>true</consoleOutput>
+				<failsOnError>true</failsOnError>
+				<linkXRef>false</linkXRef>
+			</configuration>
+			<executions>
+				<execution>
+					<id>checkstyle-check</id>
+					<phase>verify</phase>
+					<goals>
+						<goal>check</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	
+		<!-- Run the Spotbugs code quality tool -->
+		<plugin>
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs-maven-plugin</artifactId>
+			<version>4.0.4</version>
+			<configuration>
+				<xmlOutput>false</xmlOutput>
+				<htmlOutput>true</htmlOutput>
+				<failOnError>false</failOnError>
+			</configuration>
+			<executions>
+				<execution>
+					<id>spotbugs-check</id>
+					<phase>verify</phase>
+					<goals>
+						<goal>check</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	
+		<!-- Configure Jacoco code coverage -->
+		<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.5</version>
+			<executions>
+				<execution>
+					<id>jacoco-prepare-agent</id>
+					<phase>process-test-classes</phase>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>jacoco-report</id>
+					<phase>verify</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>	
+  		
+  		<!-- Package as jar -->
+<!--   		<plugin> -->
+<!--   			<groupId>org.apache.maven.plugins</groupId> -->
+<!--   			<artifactId>maven-jar-plugin</artifactId> -->
+<!--   			<configuration> -->
+<!--   				<archive> -->
+<!--   					<manifest> -->
+<!--   						<addClasspath>true</addClasspath> -->
+<!--   						<mainClass>project.App</mainClass> TODO: Change this to you main class -->
+<!--   					</manifest> -->
+<!--   				</archive> -->
+<!--   			</configuration> -->
+<!--   		</plugin> -->
+<!--   		<plugin> -->
+<!--   			<artifactId>maven-assembly-plugin</artifactId> -->
+<!--   			<configuration> -->
+<!--   				<archive> -->
+<!--   					<manifest> -->
+<!--   						<addClasspath>true</addClasspath> -->
+<!--   						<mainClass>project.App</mainClass> TODO: Change this to you main class -->
+<!--   					</manifest> -->
+<!--   				</archive> -->
+<!--   				<descriptorRefs> -->
+<!--   					<descriptorRef>jar-with-dependencies</descriptorRef> -->
+<!--   				</descriptorRefs> -->
+<!--   			</configuration> -->
+<!--   			<executions> -->
+<!--   				<execution> -->
+<!--   					<id>make-jar-with-dependencies</id> -->
+<!--   					<phase>package</phase> -->
+<!--   					<goals> -->
+<!--   						<goal>single</goal> -->
+<!--   					</goals> -->
+<!--   				</execution> -->
+<!--   			</executions> -->
+<!--   		</plugin> -->
+  	</plugins>
+  </build>
+</project>

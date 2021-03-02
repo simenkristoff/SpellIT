@@ -1,0 +1,112 @@
+* {
+	-fx-tile-bg-base: #131d26;
+	-fx-tile-border-base: #010c17;
+	-fx-tile-text-base: #ececec;
+	-fx-tile-triple-word-bg-base: #ff6a11;
+	-fx-tile-double-word-bg-base: #d40028;
+	-fx-tile-triple-letter-bg-base: #73c663;
+	-fx-tile-double-letter-bg-base: #67acfe;
+	-fx-tile-star-base: #d40028;
+}
+
+#gridContainer {
+	-fx-background-color: -fx-tile-border-base;
+	-fx-border-color: rgba(255, 255, 255, .1);
+}
+
+.tile {
+	-fx-background-color: -fx-tile-bg-base;
+	-fx-border-color:-fx-tile-border-base;
+	-fx-border-radius: 10;
+	-fx-background-radius: 10;
+}
+
+.tile Text {
+	-fx-font-family: "Roboto Bold";
+	-fx-fill: -fx-tile-text-base;
+}
+
+.tile.triple-word {
+    -fx-background-color: 
+        -fx-tile-triple-word-bg-base,
+        linear-gradient(rgba(255,255,255,0.1) 50%, -fx-tile-triple-word-bg-base 100%),
+        radial-gradient(center 50% -40%, radius 200%, rgba(255,255,255,0.1) 45%, -fx-tile-triple-word-bg-base 50%);
+    -fx-background-radius: 10;
+    -fx-background-insets: 0,1,1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.tile.double-word {
+	-fx-background-color: 
+        -fx-tile-double-word-bg-base,
+        linear-gradient(rgba(255,255,255,0.1) 50%, -fx-tile-double-word-bg-base 100%),
+        radial-gradient(center 50% -40%, radius 200%, rgba(255,255,255,0.1) 45%, -fx-tile-double-word-bg-base 50%);
+    -fx-background-radius: 10;
+    -fx-background-insets: 0,1,1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.tile.triple-letter {
+	-fx-background-color: 
+        -fx-tile-triple-letter-bg-base,
+        linear-gradient(rgba(255,255,255,0.1) 50%, -fx-tile-triple-letter-bg-base 100%),
+        radial-gradient(center 50% -40%, radius 200%, rgba(255,255,255,0.1) 45%, -fx-tile-triple-letter-bg-base 50%);
+    -fx-background-radius: 10;
+    -fx-background-insets: 0,1,1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.tile.double-letter {
+	-fx-background-color: 
+        -fx-tile-double-letter-bg-base,
+        linear-gradient(rgba(255,255,255,0.1) 50%, -fx-tile-double-letter-bg-base 100%),
+        radial-gradient(center 50% -40%, radius 200%, rgba(255,255,255,0.1) 45%, -fx-tile-double-letter-bg-base 50%);
+    -fx-background-radius: 10;
+    -fx-background-insets: 0,1,1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.tile.star {
+	-fx-background-color: 
+        -fx-tile-star-base,
+        linear-gradient(rgba(255,255,255,0.1) 50%, -fx-tile-star-base 100%),
+        radial-gradient(center 50% -40%, radius 200%, rgba(255,255,255,0.1) 45%, -fx-tile-star-base 50%);
+    -fx-background-radius: 10;
+    -fx-background-insets: 0,1,1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.icon-star {
+	-fx-background-insets: 5;
+	-fx-background-color: -fx-tile-text-base;
+	-fx-content-display: graphic-only;
+	-fx-shape: "m -902.3164,304.67969 -28.04007,302.41272 -115.18233,-95.63509 95.63512,115.1823 -302.41272,28.04007 302.41348,28.03931 -95.63588,115.1823 115.18233,-95.63433 28.04007,302.41273 28.03931,-302.41349 115.1823,95.63509 -95.63509,-115.1823 302.41348,-28.03931 -302.41272,-28.04007 95.63433,-115.1823 -115.1823,95.63586 -28.03931,-302.41349 z";
+	-height: 34;
+	-width: 34;
+	-fx-min-height: -height;
+    -fx-min-width: -width;
+    -fx-max-height: -height;
+    -fx-max-width: -width;
+}
+
+.tile.letter {
+	-fx-background-color: 
+        #ECECEC,
+        linear-gradient(#ECECEC 50%, #D5D5D5 100%),
+        radial-gradient(center 50% -40%, radius 200%, #ECECEC 45%, #D5D5D5 50%);
+    -fx-background-radius: 10;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+.tile.letter.recently-placed {
+	-fx-background-color: 
+        rgba(236,236,236, 0.8),
+        linear-gradient(rgba(236,236,236, 0.1) 50%, rgba(213,213,213, 0.8) 100%),
+        radial-gradient(center 50% -40%, radius 200%, rgba(236,236,236, 0.1) 45%, rgba(213,213,213, 0.8) 50%);
+}
+
+.tile.letter Text {
+	-fx-fill: -fx-tile-border-base;
+}
