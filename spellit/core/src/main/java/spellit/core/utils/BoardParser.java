@@ -42,6 +42,11 @@ public class BoardParser {
 
 		for (Tile tile : unprocessedTiles) {
 
+			// Verify tile placement
+			if (!tileMap.hasLeft(tile) && !tileMap.hasRight(tile) && !tileMap.hasUp(tile) && !tileMap.hasDown(tile)) {
+				throw new TurnException("Ugyldig plassering");
+			}
+
 			// Find the horizontal text origin, if any
 			if (tileMap.hasLeft(tile) && hOrigin == null) {
 				hOrigin = findOrigin(tileMap.getLeft(tile), Dir.HORIZONTAL);
@@ -106,8 +111,6 @@ public class BoardParser {
 				}
 				parser = tileMap.getDown(parser);
 			}
-		} else {
-			throw new TurnException("Ugyldig plassering");
 		}
 
 		if (subwords.isEmpty() && queue.size() < 2) {
