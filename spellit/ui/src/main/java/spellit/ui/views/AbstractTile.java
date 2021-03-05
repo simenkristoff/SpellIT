@@ -99,8 +99,6 @@ public abstract class AbstractTile extends BorderPane {
 
 	protected abstract void resetDragTransferState(Letter letter);
 
-	protected abstract void handleDragTransferSuccess(DragEvent event);
-
 	protected void addLetterStyle() {
 		if (this.getStyleClass().indexOf("letter") < 0) {
 			this.getStyleClass().add("letter");
@@ -194,17 +192,22 @@ public abstract class AbstractTile extends BorderPane {
 
 			@Override
 			public void handle(DragEvent event) {
-				AbstractTile tile = null;
+				AbstractTile target = null;
 				boolean dragCompleted = false;
 				// Transfer the data to the target
 				Dragboard dragboard = event.getDragboard();
-				tile = controller.getIntersection(event);
+				target = controller.getIntersection(event);
 
-				if (dragboard.hasContent(LETTER_LIST) && !tile.hasLetter()) {
-					if (tile instanceof GridTile && ((GridTile) tile).tileType == TileType.STAR) {
-						tile.setCenter(tile.character);
+				if (dragboard.hasContent(LETTER_LIST) && !target.hasLetter()) {
+					if (target instanceof GridTile) {
+						target.getStyleClass().add("recently-placed");
+						if (((GridTile) target).getTileType() == TileType.STAR) {
+							target.setCenter(target.character);
+						}
+					} else {
+						target.getStyleClass().remove("recently-placed");
 					}
-					tile.getStyleClass().add("recently-placed");
+
 					setLetter((Letter) dragboard.getContent(LETTER_LIST));
 					dragCompleted = true;
 				}
@@ -219,18 +222,21 @@ public abstract class AbstractTile extends BorderPane {
 		 * What to do after drag is completed
 		 */
 		this.addEventFilter(DragEvent.DRAG_DONE, new EventHandler<DragEvent>() {
-
 			@Override
 			public void handle(DragEvent event) {
 				TransferMode tm = event.getTransferMode();
+				AbstractTile source = (AbstractTile) event.getSource();
 				if (tm == TransferMode.MOVE) {
-					handleDragTransferSuccess(event);
+					if (source instanceof GridTile) {
+						source.getStyleClass().addAll("tile", ((GridTile) source).getTileType().getClassName());
+					}
+					event.consume();
 				} else {
 					Dragboard dragboard = event.getDragboard();
 					resetDragTransferState((Letter) dragboard.getContent(LETTER_LIST));
+					event.consume();
 				}
 
-				event.consume();
 			}
 		});
 	}
