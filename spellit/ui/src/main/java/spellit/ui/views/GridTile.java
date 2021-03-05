@@ -2,7 +2,6 @@ package spellit.ui.views;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.input.DragEvent;
 import javafx.scene.layout.Region;
 import spellit.core.models.Game;
 import spellit.core.models.Letter;
@@ -13,7 +12,7 @@ public class GridTile extends AbstractTile {
 
 	private final Game game;
 	private final int row, col;
-	TileType tileType;
+	private final TileType tileType;
 	private Region icon;
 
 	public GridTile(GameController controller, double size, int row, int col) {
@@ -39,6 +38,10 @@ public class GridTile extends AbstractTile {
 			}
 
 		});
+	}
+
+	public TileType getTileType() {
+		return this.tileType;
 	}
 
 	private void setupLayout() {
@@ -79,12 +82,6 @@ public class GridTile extends AbstractTile {
 		setLetter(letter);
 		this.setCharacter(letter.character);
 		this.setPoints(letter.points);
-	}
-
-	@Override
-	protected void handleDragTransferSuccess(DragEvent event) {
-		this.getStyleClass().addAll("tile", this.tileType.getClassName());
-		removeLetter();
 	}
 
 	@Override

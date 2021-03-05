@@ -1,6 +1,5 @@
 package spellit.ui.views;
 
-import javafx.scene.input.DragEvent;
 import spellit.core.models.Letter;
 import spellit.ui.controllers.GameController;
 
@@ -24,11 +23,6 @@ public class PlayerTile extends AbstractTile {
 		setLetter(letter);
 		this.setCharacter(letter.character);
 		this.setPoints(letter.points);
-	}
-
-	@Override
-	protected void handleDragTransferSuccess(DragEvent event) {
-		removeLetter();
 	}
 
 }
