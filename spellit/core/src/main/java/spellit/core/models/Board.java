@@ -24,12 +24,12 @@ public class Board {
 		this.game = game;
 		this.dictionary = new Dictionary();
 		this.tileMap = new TileMap(this);
-		this.parser = new BoardParser(this.game, this.tileMap, this.dictionary);
+		this.parser = new BoardParser(this.game, this.tileMap, this.dictionary, this.placedTiles);
 	}
 
-	public void setTile(int row, int col, TileType tileType, Letter letter) {
+	public void setTile(int row, int col, Letter letter) {
 		tileMap.tiles[row][col].setLetter(letter);
-		unprocessedTiles.add(new Tile(row, col, tileType, letter));
+		unprocessedTiles.add(new Tile(row, col, letter));
 	}
 
 	public void removeTile(int row, int col) {
@@ -88,8 +88,42 @@ public class Board {
 	}
 
 	private void cleanUp() {
-		this.placedTiles.addAll(unprocessedTiles);
 		unprocessedTiles = new ArrayList<Tile>();
+	}
+
+	public static void main(String[] args) {
+		Game game = new Game();
+		Board board = new Board(game);
+	}
+
+	private void loadTestTiles() {
+		ArrayList<Tile> testTiles = new ArrayList<Tile>();
+		testTiles.add(new Tile(7, 1, new Letter('D', 2)));
+		testTiles.add(new Tile(7, 2, new Letter('I', 2)));
+		testTiles.add(new Tile(7, 3, new Letter('K', 2)));
+		testTiles.add(new Tile(7, 4, new Letter('T', 2)));
+		testTiles.add(new Tile(7, 5, new Letter('E', 2)));
+		testTiles.add(new Tile(7, 6, new Letter('D', 2)));
+		testTiles.add(new Tile(7, 7, new Letter('E', 2)));
+		for (Tile tile : testTiles) {
+			tile.setProcessed(true);
+		}
+		Tile B = new Tile(6, 7, new Letter('B', 2));
+		Tile O = new Tile(6, 8, new Letter('O', 2));
+		Tile N = new Tile(6, 9, new Letter('N', 2));
+		Tile U = new Tile(6, 10, new Letter('U', 2));
+		Tile S = new Tile(6, 11, new Letter('S', 2));
+		testTiles.addAll(List.of(B, O, N, U, S));
+		for (Tile tile : testTiles) {
+			this.tileMap.setTile(tile);
+		}
+		unprocessedTiles.addAll(List.of(B, O, N, U, S));
+		try {
+			processTurn();
+		} catch (TurnException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

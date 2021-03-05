@@ -30,7 +30,7 @@ public class GridTile extends AbstractTile {
 					return;
 				}
 				if (newValue != null) {
-					game.board.setTile(row, col, tileType, newValue);
+					game.board.setTile(row, col, newValue);
 				} else {
 					game.board.removeTile(row, col);
 				}

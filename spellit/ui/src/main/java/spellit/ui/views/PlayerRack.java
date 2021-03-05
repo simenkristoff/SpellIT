@@ -26,16 +26,18 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
 	private final double TILE_SIZE = 40.0;
 	private final GameController controller;
 	private final Game game;
-	private GridPane rack;
+	private final GridPane rack;
+	private final JFXButton swapBtn;
 	private ArrayList<PlayerTile> tiles;
 	private Player player;
-	private JFXButton swapBtn;
 
 	public PlayerRack(GameController controller) {
 		this.setId("rackWrapper");
 		this.controller = controller;
 		this.game = controller.getGame();
 		this.player = game.getCurrentPlayer();
+		this.rack = new GridPane();
+		this.swapBtn = new JFXButton();
 		setupLayout();
 		setupConstraints();
 		setupInitialRack();
@@ -50,12 +52,10 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
 		setAlignment(Pos.CENTER);
 
 		// Setup player rack
-		this.rack = new GridPane();
 		rack.setId("playerRack");
 		getChildren().add(rack);
 
 		// Setup swap button
-		this.swapBtn = new JFXButton();
 		swapBtn.setMinWidth(TILE_SIZE);
 		swapBtn.setMinHeight(TILE_SIZE);
 		swapBtn.getStyleClass().add("btn-swap");
@@ -80,19 +80,12 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
 	public JFXButton getSwapButton() {
 		return this.swapBtn;
 	}
-	/*
-	 * private void setupInitialRack() { tiles = new ArrayList<PlayerTile>(); int i
-	 * = 0; for (Letter letter : game.letterCollection.drawInitialLetters()) {
-	 * tiles.add(new PlayerTile(letter, TILE_SIZE)); rack.add(tiles.get(i), i, 0);
-	 * i++; } }
-	 */
 
 	private void setupInitialRack() {
 		tiles = new ArrayList<PlayerTile>();
 		for (Player player : game.getPlayers()) {
 			if (player.getLetters().isEmpty()) {
 				player.drawInitialLetters();
-				System.out.println(player.getLetters());
 			}
 		}
 		for (int i = 0; i < 7; i++) {
@@ -115,7 +108,6 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
 		int index = 0;
 		for (PlayerTile tile : tiles) {
 			if (!tile.hasLetter()) {
-				// tile.setLetter(player.drawLetter(index));
 				player.drawLetter(index);
 			}
 			index++;

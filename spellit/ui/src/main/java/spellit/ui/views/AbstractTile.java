@@ -34,8 +34,8 @@ public abstract class AbstractTile extends BorderPane {
 	protected Letter letter;
 	protected Text character, points;
 	protected ObjectProperty<Letter> letterProperty = new SimpleObjectProperty<Letter>(null);
-	private final GameController controller;
 
+	private final GameController controller;
 	private final double size;
 
 	public AbstractTile(GameController controller, double size) {

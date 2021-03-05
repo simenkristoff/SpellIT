@@ -24,8 +24,6 @@ public class Game {
 		this.player2 = new Player(this, "Player 2");
 		this.currentPlayer = player1;
 		this.turnCount = 0;
-		this.addListener(player1, player2);
-		System.out.println(this);
 	}
 
 	public void addListener(NextTurnListener listener) {

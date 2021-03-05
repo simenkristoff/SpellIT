@@ -55,8 +55,17 @@ public class TileMap {
 		return tiles[row][col];
 	}
 
-	public Tile setTile(Tile tile) {
-		return tiles[tile.getRow()][tile.getCol()] = tile;
+	public Tile getTile(Tile tile) {
+		return tiles[tile.getRow()][tile.getCol()];
+	}
+
+	public void setTile(Tile tile) {
+		tiles[tile.getRow()][tile.getCol()].setLetter(tile.getLetter());
+		tiles[tile.getRow()][tile.getCol()].setProcessed(tile.isProcessed());
+	}
+
+	public TileType getBonus(Tile tile) {
+		return tiles[tile.getRow()][tile.getCol()].getTileType();
 	}
 
 	public boolean hasLeft(Tile tile) {
