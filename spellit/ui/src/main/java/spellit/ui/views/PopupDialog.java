@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import spellit.core.models.Game;
 import spellit.core.persistence.FileHandler;
 import spellit.ui.controllers.GameController;
 
@@ -103,7 +104,22 @@ public class PopupDialog {
 		dialog.show();
 	}
 
-	public void showDialog(String message) {
+	public void showNewGameDialog() {
+		title.setText("Start nytt spill");
+		Text msg = new Text("Er du sikker på at du vil start et nytt spill?");
+		msg.setFill(Color.WHITE);
+		layout.setBody(msg);
+		okBtn = new JFXButton("Start nytt spill");
+		okBtn.setOnAction(event -> {
+			this.controller.setGame(new Game());
+			dialog.close();
+		});
+
+		layout.setActions(cancelBtn, okBtn);
+		dialog.show();
+	}
+
+	public void showWarningDialog(String message) {
 		title.setText("Advarsel");
 		Text msg = new Text(message);
 		msg.setFill(Color.WHITE);

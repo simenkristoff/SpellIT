@@ -12,10 +12,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import spellit.core.events.NextTurnListener;
 
 @JsonIgnoreProperties(value = { "playing" })
-public class Player implements NextTurnListener {
+public class Player {
 
 	private final IntegerProperty pointsProperty = new SimpleIntegerProperty();
 	private final StringProperty scoreProperty = new SimpleStringProperty();
@@ -99,11 +98,6 @@ public class Player implements NextTurnListener {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	@Override
-	public void onNextTurn() {
-		System.out.println(this.getPoints());
 	}
 
 	@Override

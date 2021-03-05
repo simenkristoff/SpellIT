@@ -119,7 +119,7 @@ public class GameController extends AbstractViewController {
 				game.board.processTurn();
 				game.initiateNextTurn();
 			} catch (TurnException e) {
-				popup.showDialog(e.getMessage());
+				popup.showWarningDialog(e.getMessage());
 			}
 		});
 		// Pass round
@@ -135,6 +135,11 @@ public class GameController extends AbstractViewController {
 		// Load game
 		sidebar.getLoadGameButton().setOnAction(event -> {
 			popup.showLoadGameDialog();
+		});
+
+		// New game
+		sidebar.getNewGameButton().setOnAction(event -> {
+			popup.showNewGameDialog();
 		});
 
 		// Swap letters

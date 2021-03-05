@@ -1,6 +1,7 @@
 package spellit.core.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javafx.beans.property.BooleanProperty;
@@ -8,10 +9,11 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+@JsonIgnoreProperties(value = { "tileType" })
 public class Tile {
 
 	private final int row, col;
-	private final TileType tileType;
+	private TileType tileType;
 	private ObjectProperty<Letter> letterProperty = new SimpleObjectProperty<Letter>(null);
 	private BooleanProperty processedProperty = new SimpleBooleanProperty(false);
 
@@ -22,11 +24,9 @@ public class Tile {
 	}
 
 	@JsonCreator
-	public Tile(@JsonProperty("row") int row, @JsonProperty("col") int col, @JsonProperty("tileType") TileType tileType,
-			@JsonProperty("letter") Letter letter) {
+	public Tile(@JsonProperty("row") int row, @JsonProperty("col") int col, @JsonProperty("letter") Letter letter) {
 		this.row = row;
 		this.col = col;
-		this.tileType = tileType;
 		this.letterProperty.set(letter);
 	}
 

@@ -17,11 +17,13 @@ public class BoardParser {
 	private final Game game;
 	private final TileMap tileMap;
 	private final Dictionary dictionary;
+	private final ArrayList<Tile> placedTiles;
 
-	public BoardParser(Game game, TileMap tileMap, Dictionary dictionary) {
+	public BoardParser(Game game, TileMap tileMap, Dictionary dictionary, ArrayList<Tile> placedTiles) {
 		this.game = game;
 		this.tileMap = tileMap;
 		this.dictionary = dictionary;
+		this.placedTiles = placedTiles;
 	}
 
 	public void parseBoard(ArrayList<Tile> unprocessedTiles) throws TurnException {
@@ -39,7 +41,6 @@ public class BoardParser {
 		}
 
 		for (Tile tile : unprocessedTiles) {
-			// Tile tile = tileMap.getTile(point.x, point.y);
 
 			// Find the horizontal text origin, if any
 			if (tileMap.hasLeft(tile) && hOrigin == null) {
@@ -51,15 +52,13 @@ public class BoardParser {
 				vOrigin = findOrigin(tileMap.getUp(tile), Dir.VERTICAL);
 			}
 
-			// Exit early if origin is found
-			if (hOrigin != null || vOrigin != null) {
-				break;
-			}
 		}
 
 		// Error if player placed in both directions
-		if (hOrigin != null && vOrigin != null) {
-			if (!tileMap.getRight(hOrigin).isProcessed() && !tileMap.getDown(vOrigin).isProcessed()) {
+		if ((hOrigin != null && !tileMap.getTile(hOrigin).isProcessed())
+				&& (vOrigin != null && !tileMap.getTile(vOrigin).isProcessed())) {
+			if ((tileMap.hasRight(hOrigin) && !tileMap.getRight(hOrigin).isProcessed())
+					&& (tileMap.hasDown(vOrigin) && !tileMap.getDown(vOrigin).isProcessed())) {
 				throw new TurnException("Du kan kun plassere ord i én retning");
 			}
 		}
@@ -70,45 +69,50 @@ public class BoardParser {
 
 			while (true) {
 
-				if (tileMap.hasUp(parser) && !parser.isProcessed()) {
-					subwords.put(parser, findSubwords(tileMap.getUp(parser), Dir.VERTICAL));
+				if (!tileMap.getTile(parser).isProcessed()) {
+					if (tileMap.hasUp(parser)) {
+						subwords.put(parser, findSubwords(tileMap.getUp(parser), Dir.VERTICAL));
+					}
+					if (tileMap.hasDown(parser)) {
+						subwords.put(parser, findSubwords(tileMap.getDown(parser), Dir.VERTICAL));
+					}
 				}
-				if (tileMap.hasDown(parser) && !parser.isProcessed()) {
-					subwords.put(parser, findSubwords(tileMap.getDown(parser), Dir.VERTICAL));
-				}
+
 				queue.add(parser);
+
 				if (!tileMap.hasRight(parser)) {
 					break;
 				}
 				parser = tileMap.getRight(parser);
 			}
-		}
-
-		// Lookup Vertical word
-		if (vOrigin != null && tileMap.hasDown(vOrigin)) {
+		} else if (vOrigin != null && tileMap.hasDown(vOrigin)) {
 			Tile parser = vOrigin;
 
 			while (true) {
 
-				if (tileMap.hasLeft(parser) && !parser.isProcessed()) {
-					subwords.put(parser, findSubwords(tileMap.getLeft(parser), Dir.HORIZONTAL));
-				}
-				if (tileMap.hasRight(parser) && !parser.isProcessed()) {
-					subwords.put(parser, findSubwords(tileMap.getRight(parser), Dir.HORIZONTAL));
+				if (!tileMap.getTile(parser).isProcessed()) {
+					if (tileMap.hasLeft(parser)) {
+						subwords.put(parser, findSubwords(tileMap.getLeft(parser), Dir.HORIZONTAL));
+					}
+					if (tileMap.hasRight(parser)) {
+						subwords.put(parser, findSubwords(tileMap.getRight(parser), Dir.HORIZONTAL));
+					}
 				}
 
 				queue.add(parser);
+
 				if (!tileMap.hasDown(parser)) {
 					break;
 				}
 				parser = tileMap.getDown(parser);
 			}
+		} else {
+			throw new TurnException("Ugyldig plassering");
 		}
 
-		/*
-		 * if (subwords.isEmpty() && queue.size() < 2) { throw new
-		 * TurnException("Ordet må bestå av minst 2 bokstaver"); }
-		 */
+		if (subwords.isEmpty() && queue.size() < 2) {
+			throw new TurnException("Ordet må bestå av minst 2 bokstaver");
+		}
 
 		calculateScore(queue, subwords);
 	}
@@ -177,9 +181,9 @@ public class BoardParser {
 		int subscore = 0;
 
 		for (Tile tile : tiles) {
-			TileType bonus = tile.getTileType();
-			if (!tile.isProcessed()) {
-				tile.setProcessed(true);
+			TileType bonus = tileMap.getBonus(tile);
+			if (!tileMap.getTile(tile).isProcessed()) {
+				tileMap.getTile(tile).setProcessed(true);
 				switch (bonus) {
 				case TW:
 					if (subwords.containsKey(tile)) {
@@ -212,11 +216,12 @@ public class BoardParser {
 			} else {
 				score += tile.getLetter().points;
 			}
+			this.placedTiles.add(tileMap.getTile(tile));
 			sb.append(tile.getLetter().character);
 		}
 		String word = sb.toString();
 		System.out.println("Placed word: " + word + ", Points: " + score);
-		System.out.println("Subscore: " + subscore);
+		System.out.println("Total score: " + score + subscore);
 		if (this.dictionary.lookup(word)) {
 			for (Integer multiplier : wordMultipliers) {
 				score *= multiplier;
