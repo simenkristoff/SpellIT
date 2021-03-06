@@ -138,8 +138,9 @@ public class BoardParser {
 	 * Parses a word in horizontal direction
 	 * 
 	 * @param tile the horizontal origin tile, i.e start tile
+	 * @throws InvalidWordException
 	 */
-	private int parseLetters(Tile tile, Dir direction) {
+	private int parseLetters(Tile tile, Dir direction) throws InvalidWordException {
 		StringBuilder sb = new StringBuilder();
 		Tile parser = tile;
 		sb.append(parser.getLetter().character);
@@ -163,12 +164,12 @@ public class BoardParser {
 		System.out.println("Subword: " + sb.toString() + ", Points: " + points);
 		if (this.dictionary.lookup(sb.toString())) {
 			return points;
+		} else {
+			throw new InvalidWordException(sb.toString());
 		}
-
-		return 0;
 	}
 
-	private int findSubwords(Tile tile, Dir direction) {
+	private int findSubwords(Tile tile, Dir direction) throws InvalidWordException {
 		Tile origin = findOrigin(tile, direction);
 		return parseLetters(origin, direction);
 	}
