@@ -20,8 +20,17 @@ public class Game {
 	public Game() {
 		this.board = new Board(this);
 		this.letterCollection = new LetterCollection();
-		this.player1 = new Player(this, "Player 1");
-		this.player2 = new Player(this, "Player 2");
+		this.player1 = new Player(this, "player1");
+		this.player2 = new Player(this, "player2");
+		this.currentPlayer = player1;
+		this.turnCount = 0;
+	}
+
+	public Game(String player1Name, String player2Name) {
+		this.board = new Board(this);
+		this.letterCollection = new LetterCollection();
+		this.player1 = new Player(this, player1Name);
+		this.player2 = new Player(this, player2Name);
 		this.currentPlayer = player1;
 		this.turnCount = 0;
 	}

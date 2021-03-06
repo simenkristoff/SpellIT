@@ -13,7 +13,6 @@
 .root {
 	-fx-body-color : -fx-secondary;
 	-fx-background-color: -fx-secondary;
-	
 	-fx-outer-border : #cecece;
 	-fx-font-family: "Roboto Regular";
 	-fx-font-size: 16;
@@ -39,8 +38,16 @@
  /**
   * DIALOGS
   */
+  
+  .jfx-alert-overlay {
+  	-fx-background-color: rgba(0, 0, 0, 0.45);
+  }
+  
+  .jfx-alert-content-container {
+  	-fx-background-color: #131d26;
+  }
  
- .jfx-dialog-layout.dialog-dark{
+ .jfx-dialog-layout.dialog-dark {
 	-fx-border-color: rgba(200, 200, 200, 0.1);
 	-fx-background-color: #131d26;
 }
@@ -151,6 +158,23 @@
     -fx-max-height: -height;
     -fx-max-width: -width;
 }
+
+/**
+ * MENU STYLES
+ */
+ 
+ #menuPane {
+ 	-fx-background-image: url("../img/primary-bg.png");
+ 	-fx-background-repeat: stretch;
+ 	-fx-background-position: center center;
+	-fx-background-size: 720 664;
+ }
+ 
+ #main-menu Text.game-title {
+ 	-fx-font-family: "Digital-7";
+ 	-fx-font-size: 80;
+ 	-fx-fill: -fx-text-light;
+ }
 
 /**
  * SCOREBOARD STYLES

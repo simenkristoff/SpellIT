@@ -18,24 +18,24 @@ public class Player {
 
 	private final IntegerProperty pointsProperty = new SimpleIntegerProperty();
 	private final StringProperty scoreProperty = new SimpleStringProperty();
+	private final StringProperty nameProperty = new SimpleStringProperty();
 	private Game game;
-	private String name;
 	private boolean playing = false;
 	private ArrayList<Letter> letters;
 
 	public Player(Game game, String name) {
 		this.game = game;
-		this.name = name;
+		this.nameProperty.set(name);
 		this.pointsProperty.set(0);
 		this.letters = new ArrayList<Letter>();
 		scoreProperty.bind(Bindings.createStringBinding(() -> {
-			return String.format("%s: %d", this.name, pointsProperty.get());
-		}, pointsProperty));
+			return String.format("%s: %d", nameProperty.get(), pointsProperty.get());
+		}, nameProperty, pointsProperty));
 	}
 
 	@JsonCreator
 	public Player(@JsonProperty("name") String name, @JsonProperty("letters") List<Letter> letters) {
-		this.name = name;
+		this.nameProperty.set(name);
 		this.pointsProperty.set(0);
 		this.letters = new ArrayList<Letter>(letters);
 	}
@@ -46,6 +46,10 @@ public class Player {
 
 	public final StringProperty scoreProperty() {
 		return this.scoreProperty;
+	}
+
+	public final StringProperty nameProperty() {
+		return this.nameProperty;
 	}
 
 	public ArrayList<Letter> getLetters() {
@@ -93,16 +97,16 @@ public class Player {
 	}
 
 	public String getName() {
-		return this.name;
+		return this.nameProperty.get();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.nameProperty.set(name);
 	}
 
 	@Override
 	public String toString() {
-		return "Player [name=" + name + ", playing=" + playing + ", points=" + pointsProperty + "]";
+		return "Player [name=" + nameProperty.get() + ", playing=" + playing + ", points=" + pointsProperty.get() + "]";
 	}
 
 }

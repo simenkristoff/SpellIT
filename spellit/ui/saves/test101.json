@@ -1,0 +1,74 @@
+{
+	"turnCount": 0,
+	"players": [
+		{
+			"name": "Testeper",
+			"letters": [
+				{
+					"character": "L",
+					"points": 1
+				},
+				{
+					"character": "F",
+					"points": 2
+				},
+				{
+					"character": "S",
+					"points": 1
+				},
+				{
+					"character": "G",
+					"points": 2
+				},
+				{
+					"character": "F",
+					"points": 2
+				},
+				{
+					"character": "T",
+					"points": 1
+				},
+				{
+					"character": "J",
+					"points": 4
+				}
+			],
+			"points": 0
+		},
+		{
+			"name": "Kari",
+			"letters": [
+				{
+					"character": "A",
+					"points": 1
+				},
+				{
+					"character": "M",
+					"points": 2
+				},
+				{
+					"character": "N",
+					"points": 1
+				},
+				{
+					"character": "A",
+					"points": 1
+				},
+				{
+					"character": "L",
+					"points": 1
+				},
+				{
+					"character": "Z",
+					"points": 10
+				},
+				{
+					"character": " ",
+					"points": 0
+				}
+			],
+			"points": 0
+		}
+	],
+	"placedTiles": []
+}

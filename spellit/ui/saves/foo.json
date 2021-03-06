@@ -1,0 +1,184 @@
+{
+	"turnCount": 1,
+	"players": [
+		{
+			"name": "Player 1",
+			"letters": [
+				{
+					"character": "G",
+					"points": 2
+				},
+				{
+					"character": "A",
+					"points": 1
+				},
+				{
+					"character": "D",
+					"points": 2
+				},
+				{
+					"character": "B",
+					"points": 3
+				},
+				{
+					"character": "W",
+					"points": 4
+				},
+				{
+					"character": "X",
+					"points": 8
+				},
+				{
+					"character": "J",
+					"points": 8
+				}
+			],
+			"points": 8
+		},
+		{
+			"name": "Player 2",
+			"letters": [
+				{
+					"character": "O",
+					"points": 1
+				},
+				{
+					"character": "A",
+					"points": 1
+				},
+				{
+					"character": "E",
+					"points": 1
+				},
+				{
+					"character": "V",
+					"points": 4
+				},
+				{
+					"character": "I",
+					"points": 1
+				},
+				{
+					"character": "R",
+					"points": 1
+				},
+				{
+					"character": "O",
+					"points": 1
+				}
+			],
+			"points": 0
+		}
+	],
+	"placedTiles": [
+		{
+			"row": 7,
+			"col": 3,
+			"letter": {
+				"character": "B",
+				"points": 3
+			},
+			"processed": true
+		},
+		{
+			"row": 7,
+			"col": 4,
+			"letter": {
+				"character": "O",
+				"points": 1
+			},
+			"processed": true
+		},
+		{
+			"row": 7,
+			"col": 5,
+			"letter": {
+				"character": "N",
+				"points": 1
+			},
+			"processed": true
+		},
+		{
+			"row": 7,
+			"col": 6,
+			"letter": {
+				"character": "G",
+				"points": 2
+			},
+			"processed": true
+		},
+		{
+			"row": 7,
+			"col": 7,
+			"letter": {
+				"character": "E",
+				"points": 1
+			},
+			"processed": true
+		},
+		{
+			"row": 7,
+			"col": 8,
+			"letter": {
+				"character": "N",
+				"points": 1
+			},
+			"processed": true
+		},
+		{
+			"row": 7,
+			"col": 9,
+			"letter": {
+				"character": "E",
+				"points": 1
+			},
+			"processed": true
+		},
+		{
+			"row": 4,
+			"col": 9,
+			"letter": {
+				"character": "V",
+				"points": 4
+			},
+			"processed": true
+		},
+		{
+			"row": 5,
+			"col": 9,
+			"letter": {
+				"character": "Æ",
+				"points": 6
+			},
+			"processed": true
+		},
+		{
+			"row": 6,
+			"col": 9,
+			"letter": {
+				"character": "T",
+				"points": 1
+			},
+			"processed": true
+		},
+		{
+			"row": 8,
+			"col": 9,
+			"letter": {
+				"character": "R",
+				"points": 1
+			},
+			"processed": true
+		},
+		{
+			"row": 9,
+			"col": 9,
+			"letter": {
+				"character": "E",
+				"points": 1
+			},
+			"processed": true
+		}
+		
+	]
+}

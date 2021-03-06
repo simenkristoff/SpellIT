@@ -4,15 +4,30 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.application.Preloader;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import spellit.ui.controllers.GameController;
+import spellit.ui.controllers.MenuController;
 
 public class App extends Application {
 
-	private GameController tileController = new GameController();
+	private final int LOAD_COUNTER = 25;
+	public final State MENU = new State("menu", new MenuController(this));
+	public final State GAME = new State("game", new GameController(this));
+
+	@FXML
+	BorderPane container;
+
+	private Scene scene;
+	private FXMLLoader loader;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -24,29 +39,41 @@ public class App extends Application {
 		stage.setMaximized(false);
 		stage.setResizable(false);
 		stage.centerOnScreen();
+		setState(MENU);
 		stage.show();
+
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				close();
+			}
+		});
+
+	}
+
+	public void init() throws Exception {
+		for (int i = 0; i < LOAD_COUNTER; i++) {
+			double progress = (double) i / LOAD_COUNTER;
+			this.notifyPreloader(new Preloader.ProgressNotification(progress));
+			Thread.sleep(100);
+		}
 	}
 
 	private Scene setupScene() {
-		Scene scene = null;
-		FXMLLoader loader = new FXMLLoader();
-		loader.setController(tileController);
-		InputStream inputStream = null;
-		try {
-			inputStream = getClass().getResourceAsStream("views/app.fxml");
-			scene = new Scene(loader.load(inputStream));
-			scene.getStylesheets().setAll(this.getClass().getResource("css/styles.css").toExternalForm());
+		loader = new FXMLLoader();
+		loader.setController(this);
+		try (InputStream in = getClass().getResourceAsStream("views/app.fxml")) {
+			scene = new Scene(loader.load(in));
+			scene.getStylesheets().setAll(getClass().getResource("css/styles.css").toExternalForm());
+			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if (inputStream != null) {
-			try {
-				inputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 		return scene;
+	}
+
+	public void setState(State state) {
+		this.container.setCenter(state.loadView());
 	}
 
 	private void loadFonts() {
@@ -59,11 +86,20 @@ public class App extends Application {
 	}
 
 	/**
+	 * Closes the application.
+	 *
+	 */
+	public void close() {
+		Platform.exit();
+	}
+
+	/**
 	 * The main method. Starts the preloader and launches the application.
 	 *
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
+		System.setProperty("javafx.preloader", SplashScreen.class.getCanonicalName());
 		Application.launch(args);
 	}
 
