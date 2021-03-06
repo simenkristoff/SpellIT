@@ -8,10 +8,10 @@ import spellit.ui.App;
  */
 public abstract class AbstractStateController implements Initializable {
 
-	protected final App app;
+  protected final App app;
 
-	public AbstractStateController(App app) {
-		this.app = app;
-	}
+  public AbstractStateController(App app) {
+    this.app = app;
+  }
 
 }
