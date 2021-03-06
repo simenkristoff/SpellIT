@@ -18,7 +18,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import spellit.core.models.Game;
+import spellit.core.models.Player;
 import spellit.core.persistence.FileHandler;
+import spellit.ui.App;
 
 public class PopupDialog {
 
@@ -80,7 +82,7 @@ public class PopupDialog {
 		Text errorMsg = new Text();
 		errorMsg.getStyleClass().add("danger");
 
-		JFXListView<Label> filesList = new JFXListView();
+		JFXListView<Label> filesList = new JFXListView<Label>();
 		try {
 			for (File file : FileHandler.getSaveFiles()) {
 				filesList.getItems().add(new Label(file.getName()));
@@ -185,6 +187,25 @@ public class PopupDialog {
 		okBtn = new JFXButton("Ok");
 		okBtn.setCancelButton(true);
 		okBtn.setOnAction(event -> dialog.close());
+		layout.setActions(okBtn);
+		dialog.setContent(layout);
+		dialog.show();
+	}
+
+	public void showWinnerDialog(App app, Player winner) {
+		JFXAlert<Boolean> dialog = new JFXAlert<>(root.getScene().getWindow());
+		dialog.initModality(Modality.APPLICATION_MODAL);
+		dialog.setOverlayClose(false);
+		title.setText("Spillet er ferdig");
+		Text msg = new Text(String.format("%s vant med %d poeng!", winner.getName(), winner.getPoints()));
+		msg.setFill(Color.WHITE);
+		layout.setBody(msg);
+		okBtn = new JFXButton("Til hovedmenyen");
+		okBtn.setCancelButton(true);
+		okBtn.setOnAction(event -> {
+			app.setState(app.MENU);
+			dialog.close();
+		});
 		layout.setActions(okBtn);
 		dialog.setContent(layout);
 		dialog.show();

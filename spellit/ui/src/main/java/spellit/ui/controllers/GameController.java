@@ -3,6 +3,8 @@ package spellit.ui.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
@@ -12,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import spellit.core.exceptions.TurnException;
 import spellit.core.models.Game;
+import spellit.core.models.Player;
 import spellit.ui.App;
 import spellit.ui.views.AbstractTile;
 import spellit.ui.views.GridContainer;
@@ -90,6 +93,16 @@ public class GameController extends AbstractStateController {
 
 	private void setupListeners() {
 		game.addListener(playerRack, gridContainer, scoreboard, sidebar);
+		game.winnerProperty().addListener(new ChangeListener<Player>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Player> observable, Player oldValue, Player newValue) {
+				if (newValue != null) {
+					popup.showWinnerDialog(app, newValue);
+				}
+			}
+
+		});
 	}
 
 	private void clear() {

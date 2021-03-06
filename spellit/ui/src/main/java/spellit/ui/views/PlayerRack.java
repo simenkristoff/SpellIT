@@ -98,7 +98,12 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
 	private void setupRackLetters() {
 		int i = 0;
 		for (Letter letter : player.getLetters()) {
-			tiles.get(i).setLetter(letter);
+			if (letter == null) {
+				tiles.get(i).removeLetter();
+			} else {
+				tiles.get(i).setLetter(letter);
+			}
+
 			i++;
 		}
 	}

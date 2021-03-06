@@ -113,10 +113,6 @@ public class BoardParser {
 			}
 		}
 
-		if (subwords.isEmpty() && queue.size() < 2) {
-			throw new TurnException("Ordet må bestå av minst 2 bokstaver");
-		}
-
 		calculateScore(queue, subwords);
 	}
 
