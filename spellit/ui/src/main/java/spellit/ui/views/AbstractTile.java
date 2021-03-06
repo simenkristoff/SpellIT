@@ -93,6 +93,9 @@ public abstract class AbstractTile extends BorderPane {
 			return;
 		}
 		letterProperty.set(null);
+		this.getStyleClass().remove("letter");
+		this.setCharacter(' ');
+		this.setPoints(null);
 	}
 
 	protected abstract void setDragTransferState();
@@ -117,7 +120,8 @@ public abstract class AbstractTile extends BorderPane {
 		if (this.points == null || !(this.points instanceof Text)) {
 			this.points = new Text(String.valueOf(points));
 		} else {
-			this.points.setText(String.valueOf(points));
+			String p = points != null ? String.valueOf(points) : "";
+			this.points.setText(p);
 		}
 	}
 

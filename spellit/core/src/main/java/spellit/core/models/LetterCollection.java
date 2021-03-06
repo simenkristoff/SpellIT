@@ -96,7 +96,10 @@ public class LetterCollection {
 	}
 
 	public Letter drawRandomLetter() {
-		return letters.remove(r.nextInt(letters.size()));
+		if (!this.isEmpty()) {
+			return letters.remove(r.nextInt(letters.size()));
+		}
+		return null;
 	}
 
 }

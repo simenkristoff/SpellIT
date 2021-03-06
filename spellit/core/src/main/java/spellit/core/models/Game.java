@@ -5,14 +5,17 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import spellit.core.events.NextTurnListener;
 
-@JsonIgnoreProperties(value = { "board", "currentPlayer", "letterCollection" })
+@JsonIgnoreProperties(value = { "board", "currentPlayer", "winner", "letterCollection" })
 public class Game {
 
 	public Board board;
 	public final LetterCollection letterCollection;
 	private Player player1, player2, currentPlayer;
+	private final ObjectProperty<Player> winnerProperty = new SimpleObjectProperty<Player>();
 	private int turnCount;
 
 	private List<NextTurnListener> nextTurnListeners = new ArrayList<NextTurnListener>();
@@ -23,6 +26,7 @@ public class Game {
 		this.player1 = new Player(this, "player1");
 		this.player2 = new Player(this, "player2");
 		this.currentPlayer = player1;
+		this.winnerProperty.set(null);
 		this.turnCount = 0;
 	}
 
@@ -32,6 +36,7 @@ public class Game {
 		this.player1 = new Player(this, player1Name);
 		this.player2 = new Player(this, player2Name);
 		this.currentPlayer = player1;
+		this.winnerProperty.set(null);
 		this.turnCount = 0;
 	}
 
@@ -88,6 +93,14 @@ public class Game {
 		}
 	}
 
+	public final ObjectProperty<Player> winnerProperty() {
+		return this.winnerProperty;
+	}
+
+	public Player getWinner() {
+		return this.winnerProperty.get();
+	}
+
 	public ArrayList<Tile> getPlacedTiles() {
 		return this.board.getPlacedTiles();
 	}
@@ -98,6 +111,13 @@ public class Game {
 
 	public void initiateNextTurn() {
 		turnCount++;
+		if (letterCollection.isEmpty()) {
+			if (player1.getPoints() >= player2.getPoints()) {
+				this.winnerProperty.set(player1);
+			} else {
+				this.winnerProperty.set(player2);
+			}
+		}
 		setCurrentPlayer();
 		for (NextTurnListener listeners : nextTurnListeners) {
 			listeners.onNextTurn();
