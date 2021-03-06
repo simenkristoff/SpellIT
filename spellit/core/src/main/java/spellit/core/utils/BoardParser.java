@@ -223,8 +223,8 @@ public class BoardParser {
 			sb.append(tile.getLetter().character);
 		}
 		String word = sb.toString();
-		System.out.println("Placed word: " + word + ", Points: " + score);
-		System.out.println("Total score: " + score + subscore);
+		System.out.println(String.format("Placed word: %s, Points: %d", word, score));
+		System.out.println(String.format("Total score: %d", (score + subscore)));
 		if (this.dictionary.lookup(word)) {
 			for (Integer multiplier : wordMultipliers) {
 				score *= multiplier;

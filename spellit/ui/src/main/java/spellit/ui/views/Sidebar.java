@@ -16,7 +16,7 @@ public class Sidebar extends VBox implements NextTurnListener {
 	private final Game game;
 	private final Text currentPlayer;
 	private final VBox tilesLeft;
-	private final JFXButton finishRoundBtn, passRoundBtn, saveGameBtn, loadGameBtn, newGameBtn;
+	private final JFXButton finishRoundBtn, passRoundBtn, saveGameBtn, loadGameBtn, newGameBtn, menuBtn;
 
 	public Sidebar(GameController controller) {
 		this.setId("sidebar");
@@ -28,6 +28,7 @@ public class Sidebar extends VBox implements NextTurnListener {
 		this.saveGameBtn = new JFXButton("Lagre spill");
 		this.loadGameBtn = new JFXButton("Last inn spill");
 		this.newGameBtn = new JFXButton("Nytt spill");
+		this.menuBtn = new JFXButton("Gå til menyen");
 		this.setupLayout();
 	}
 
@@ -57,7 +58,8 @@ public class Sidebar extends VBox implements NextTurnListener {
 		saveGameBtn.prefWidthProperty().bind(this.widthProperty());
 		loadGameBtn.prefWidthProperty().bind(this.widthProperty());
 		newGameBtn.prefWidthProperty().bind(this.widthProperty());
-		getChildren().addAll(finishRoundBtn, passRoundBtn, saveGameBtn, loadGameBtn, newGameBtn);
+		menuBtn.prefWidthProperty().bind(this.widthProperty());
+		getChildren().addAll(finishRoundBtn, passRoundBtn, saveGameBtn, loadGameBtn, newGameBtn, menuBtn);
 		setMargin(saveGameBtn, new Insets(20, 0, 0, 0));
 		this.setAlignment(Pos.CENTER);
 
@@ -81,6 +83,10 @@ public class Sidebar extends VBox implements NextTurnListener {
 
 	public JFXButton getNewGameButton() {
 		return this.newGameBtn;
+	}
+
+	public JFXButton getMenuButton() {
+		return this.menuBtn;
 	}
 
 	@Override

@@ -1,0 +1,33 @@
+* {
+	/* VARIABLES */
+	-fx-primary: #6200ee;
+	-fx-secondary:#010c17;
+	-fx-text-light: #ffffff;
+	-fx-progress-color: #00cf00;
+}
+  
+ #splash-view {
+	-fx-font-family: "Roboto Regular";
+	-fx-font-size: 16;
+	-fx-background-color: -fx-secondary;
+	-fx-background-image: url("../img/primary-bg.png");
+	-fx-background-repeat: stretch;
+	-fx-background-position: center center;
+	-fx-background-size: 720 664;
+}
+  
+#splash-view Text {
+  	-fx-fill: -fx-text-light;
+}
+
+.progress-bar .bar {
+	-fx-background-color: 
+		-fx-progress-color,
+        linear-gradient(rgba(255,255,255,0.1) 50%,	-fx-progress-color 100%),
+        radial-gradient(center 50% -40%, radius 200%, rgba(255,255,255,0.1) 45%, -fx-progress-color 50%);
+    -fx-background-insets: 0,1,1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+
+  

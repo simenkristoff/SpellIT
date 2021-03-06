@@ -6,13 +6,13 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.input.DragEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import spellit.core.exceptions.TurnException;
 import spellit.core.models.Game;
+import spellit.ui.App;
 import spellit.ui.views.AbstractTile;
 import spellit.ui.views.GridContainer;
 import spellit.ui.views.PlayerRack;
@@ -20,13 +20,10 @@ import spellit.ui.views.PopupDialog;
 import spellit.ui.views.Scoreboard;
 import spellit.ui.views.Sidebar;
 
-public class GameController extends AbstractViewController {
+public class GameController extends AbstractStateController {
 
 	@FXML
-	BorderPane container;
-
-	@FXML
-	StackPane mainContent;
+	StackPane gamePane;
 
 	@FXML
 	HBox gameWrapper;
@@ -44,13 +41,13 @@ public class GameController extends AbstractViewController {
 	private PlayerRack playerRack;
 	private PopupDialog popup;
 
+	public GameController(App app) {
+		super(app);
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.game = new Game();
-		this.popup = new PopupDialog(this);
-		this.initializeComponents();
-		this.setupListeners();
-		this.connectLogic();
+		this.popup = new PopupDialog(this.gamePane);
 	}
 
 	public Game getGame() {
@@ -59,7 +56,10 @@ public class GameController extends AbstractViewController {
 
 	public void setGame(Game game) {
 		this.game = game;
-		rerender();
+		this.clear();
+		this.initializeComponents();
+		this.setupListeners();
+		this.connectLogic();
 	}
 
 	private void initializeComponents() {
@@ -92,12 +92,9 @@ public class GameController extends AbstractViewController {
 		game.addListener(playerRack, gridContainer, scoreboard, sidebar);
 	}
 
-	private void rerender() {
+	private void clear() {
 		boardWrapper.getChildren().removeAll(scoreboard, gridContainer, playerRack);
 		sidebarWrapper.getChildren().remove(sidebar);
-		this.initializeComponents();
-		this.setupListeners();
-		this.connectLogic();
 	}
 
 	public AbstractTile getIntersection(DragEvent event) {
@@ -129,17 +126,30 @@ public class GameController extends AbstractViewController {
 
 		// Save game
 		sidebar.getSaveGameButton().setOnAction(event -> {
-			popup.showSaveGameDialog();
+			popup.showSaveGameDialog(this.game);
 		});
 
 		// Load game
 		sidebar.getLoadGameButton().setOnAction(event -> {
-			popup.showLoadGameDialog();
+			Game loadedGame = popup.showLoadGameDialog();
+			if (loadedGame != null) {
+				this.setGame(loadedGame);
+			}
+
 		});
 
 		// New game
 		sidebar.getNewGameButton().setOnAction(event -> {
-			popup.showNewGameDialog();
+			Game newGame = popup.showNewGameDialog();
+			if (newGame != null) {
+				this.setGame(newGame);
+			}
+
+		});
+
+		// Menu
+		sidebar.getMenuButton().setOnAction(event -> {
+			app.setState(app.MENU);
 		});
 
 		// Swap letters
@@ -150,6 +160,6 @@ public class GameController extends AbstractViewController {
 	}
 
 	public StackPane getRootPane() {
-		return this.mainContent;
+		return this.gamePane;
 	}
 }

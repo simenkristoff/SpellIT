@@ -1,0 +1,74 @@
+{
+	"turnCount": 4,
+	"players": [
+		{
+			"name": "Player 1",
+			"letters": [
+				{
+					"character": "G",
+					"points": 2
+				},
+				{
+					"character": "E",
+					"points": 1
+				},
+				{
+					"character": "K",
+					"points": 5
+				},
+				{
+					"character": "T",
+					"points": 1
+				},
+				{
+					"character": "V",
+					"points": 4
+				},
+				{
+					"character": "Æ",
+					"points": 6
+				},
+				{
+					"character": "A",
+					"points": 1
+				}
+			],
+			"points": 0
+		},
+		{
+			"name": "Player 2",
+			"letters": [
+				{
+					"character": "I",
+					"points": 1
+				},
+				{
+					"character": "E",
+					"points": 1
+				},
+				{
+					"character": "F",
+					"points": 4
+				},
+				{
+					"character": "I",
+					"points": 1
+				},
+				{
+					"character": "R",
+					"points": 1
+				},
+				{
+					"character": "E",
+					"points": 1
+				},
+				{
+					"character": "S",
+					"points": 1
+				}
+			],
+			"points": 0
+		}
+	],
+	"placedTiles": []
+}
