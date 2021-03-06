@@ -1,5 +1,7 @@
 # Prosjekt-repo for TDT4100
 
+![Application preview](resources/spellit_preview.jpg)
+
 Dette repoet inneholder et grunnoppsett for et prosjekt som bruker Java, JavaFX og JUnit5.
 
 For å kode prosjektet, kan du enten importere det fra url-en til dette repoet i Eclipse, eller du kan forke det til et eget repo, som du deretter kan importere og bruke.
