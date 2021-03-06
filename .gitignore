@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=eclipse,java,maven
 
 ### Custom ###
-saves/*
+spellit/ui/saves/*
 
 ### Eclipse ###
 .metadata
