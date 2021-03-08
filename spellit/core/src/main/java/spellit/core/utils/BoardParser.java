@@ -199,10 +199,12 @@ public class BoardParser {
       default:
         break;
     }
-    System.out.println("Subword: " + sb.toString() + ", Points: " + points);
+    System.out.println("Lookup subword: " + sb.toString());
     if (this.dictionary.lookup(sb.toString())) {
+      System.out.println("Subword is valid, Points: " + points);
       return points;
     } else {
+      System.out.println("Subword is invalid");
       throw new InvalidWordException(sb.toString());
     }
   }
@@ -233,6 +235,12 @@ public class BoardParser {
     StringBuilder sb = new StringBuilder();
     int score = 0;
     int subscore = 0;
+
+    if (!subwords.isEmpty()) {
+      for (Integer subpoints : subwords.values()) {
+        subscore += subpoints;
+      }
+    }
 
     for (Tile tile : tiles) {
       TileType bonus = tileMap.getBonus(tile);
@@ -276,17 +284,19 @@ public class BoardParser {
       sb.append(tile.getLetter().getCharacter());
     }
     String word = sb.toString();
-    System.out.println(String.format("Placed word: %s, Points: %d", word, score));
-    System.out.println(String.format("Total score: %d", (score + subscore)));
+    System.out.println("Lookup word: " + word);
     if (this.dictionary.lookup(word)) {
 
       // Apply word multiplier bonuses, if any
       for (Integer multiplier : wordMultipliers) {
         score *= multiplier;
       }
+      System.out.println("Word is valid, Points: " + score);
+      System.out.println(String.format("Total score: %d", (score + subscore)));
 
       this.game.getCurrentPlayer().addPoints(score + subscore);
     } else {
+      System.out.println("Word is invalid");
       throw new InvalidWordException(word);
     }
   }

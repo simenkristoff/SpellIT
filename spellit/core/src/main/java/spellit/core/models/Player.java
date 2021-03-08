@@ -114,7 +114,15 @@ public class Player {
    */
   public Letter drawLetter(int index) {
     Letter letter = game.letterCollection.drawRandomLetter();
-    letters.set(index, letter);
+    try {
+      letters.set(index, letter);
+    } catch (IndexOutOfBoundsException e) {
+      if (index < 7) {
+        letters.add(index, letter);
+      } else {
+        throw new IndexOutOfBoundsException();
+      }
+    }
     return letter;
   }
 

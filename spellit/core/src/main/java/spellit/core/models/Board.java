@@ -82,6 +82,15 @@ public class Board {
   }
 
   /**
+   * Returns the unprocessed tiles placed on the board.
+   *
+   * @return the unprocessed tiles
+   */
+  public ArrayList<Tile> getUnprocessedTiles() {
+    return this.unprocessedTiles;
+  }
+
+  /**
    * Loads a list of tiles to the board.
    *
    * @param placedTiles the the tiles to load

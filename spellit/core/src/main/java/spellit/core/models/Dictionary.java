@@ -19,7 +19,7 @@ public class Dictionary {
   /**
    * Instantiates a new dictionary.
    */
-  Dictionary() {
+  public Dictionary() {
     root = new TrieTree();
     try (BufferedReader br = new BufferedReader(
         new InputStreamReader(this.getClass().getResourceAsStream("dictionary.csv"), "UTF-8"))) {

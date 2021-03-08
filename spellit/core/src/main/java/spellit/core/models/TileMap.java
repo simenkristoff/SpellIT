@@ -17,7 +17,7 @@ public class TileMap {
   /**
    * Instantiates a new tile map.
    */
-  TileMap() {
+  public TileMap() {
     tiles = new Tile[Board.COLS][Board.ROWS];
     try (InputStream in = this.getClass().getResourceAsStream("tilemap_standard.txt")) {
       Scanner sc = new Scanner(in, "UTF-8");
@@ -85,6 +85,16 @@ public class TileMap {
   public void setTile(Tile tile) {
     tiles[tile.getRow()][tile.getCol()].setLetter(tile.getLetter());
     tiles[tile.getRow()][tile.getCol()].setProcessed(tile.isProcessed());
+  }
+
+  /**
+   * Removes the tile at a given position in the tile map.
+   *
+   * @param tile the tile to remove
+   */
+  public void removeTile(Tile tile) {
+    tiles[tile.getRow()][tile.getCol()].removeLetter();
+    tiles[tile.getRow()][tile.getCol()].setProcessed(false);
   }
 
   /**
@@ -177,16 +187,6 @@ public class TileMap {
    */
   public Tile getDown(Tile tile) {
     return tiles[tile.getRow() + 1][tile.getCol()];
-  }
-
-  /**
-   * To string.
-   *
-   * @return the string
-   */
-  @Override
-  public String toString() {
-    return "TileMap [tiles=" + Arrays.toString(tiles) + "]";
   }
 
 }
