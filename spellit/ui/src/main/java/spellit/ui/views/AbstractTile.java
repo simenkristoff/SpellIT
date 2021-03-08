@@ -26,7 +26,13 @@ import spellit.core.models.Letter;
 import spellit.core.models.TileType;
 import spellit.ui.App;
 import spellit.ui.controllers.GameController;
+import spellit.ui.views.dialogs.LetterDialog;
 
+/**
+ * The Class AbstractTile. Wrapper class for tiles. Each tile is draggable as long as they have a
+ * letter, and can drag a letter from one tile to another. Tiles will be undraggable if they have no
+ * letter or if they are set to disabled.
+ */
 public abstract class AbstractTile extends BorderPane {
 
   public static final DataFormat LETTER_LIST = new DataFormat("LetterList");
@@ -38,6 +44,12 @@ public abstract class AbstractTile extends BorderPane {
   private final GameController controller;
   private final double size;
 
+  /**
+   * Instantiates a new abstract tile.
+   *
+   * @param controller the controller
+   * @param size the size
+   */
   public AbstractTile(GameController controller, double size) {
     this.controller = controller;
     this.size = size;
@@ -46,6 +58,9 @@ public abstract class AbstractTile extends BorderPane {
     getStyleClass().add("tile");
   }
 
+  /**
+   * Setup layout.
+   */
   private void setupLayout() {
     setMinSize(size, size);
     setPrefSize(size, size);
@@ -71,23 +86,41 @@ public abstract class AbstractTile extends BorderPane {
     setTop(padder);
   }
 
+  /**
+   * Checks for letter.
+   *
+   * @return true, if successful
+   */
   public boolean hasLetter() {
     return letterProperty.get() != null;
   }
 
+  /**
+   * Gets the letter.
+   *
+   * @return the letter
+   */
   public Letter getLetter() {
     return letterProperty.get();
   }
 
+  /**
+   * Sets the letter.
+   *
+   * @param letter the new letter
+   */
   public void setLetter(Letter letter) {
     if (letter != null) {
       this.letterProperty.set(letter);
       addLetterStyle();
-      this.setCharacter(letter.character);
-      this.setPoints(letter.points);
+      this.setCharacter(letter.getCharacter());
+      this.setPoints(letter.getPoints());
     }
   }
 
+  /**
+   * Removes the letter.
+   */
   protected void removeLetter() {
     if (!hasLetter()) {
       return;
@@ -98,17 +131,33 @@ public abstract class AbstractTile extends BorderPane {
     this.setPoints(null);
   }
 
+  /**
+   * Sets the drag transfer state.
+   */
   protected abstract void setDragTransferState();
 
+  /**
+   * Reset drag transfer state.
+   *
+   * @param letter the letter
+   */
   protected abstract void resetDragTransferState(Letter letter);
 
+  /**
+   * Adds the letter style.
+   */
   protected void addLetterStyle() {
     if (this.getStyleClass().indexOf("letter") < 0) {
       this.getStyleClass().add("letter");
     }
   }
 
-  protected void setCharacter(char character) {
+  /**
+   * Sets the character.
+   *
+   * @param character the new character
+   */
+  public void setCharacter(char character) {
     if (this.character == null) {
       this.character = new Text(Character.toString(character));
     } else {
@@ -116,6 +165,11 @@ public abstract class AbstractTile extends BorderPane {
     }
   }
 
+  /**
+   * Sets the points.
+   *
+   * @param points the new points
+   */
   protected void setPoints(Integer points) {
     if (this.points == null) {
       this.points = new Text(String.valueOf(points));
@@ -125,6 +179,11 @@ public abstract class AbstractTile extends BorderPane {
     }
   }
 
+  /**
+   * Creates a snapshot image of the tile.
+   *
+   * @return the writable image
+   */
   private WritableImage createSnapshot() {
     SnapshotParameters parameters = new SnapshotParameters();
     parameters.setFill(Color.TRANSPARENT);
@@ -132,8 +191,12 @@ public abstract class AbstractTile extends BorderPane {
     return snapshot(parameters, null);
   }
 
+  /**
+   * Setup drag listeners.
+   */
   private void setupDragListeners() {
 
+    // On drag start
     this.addEventFilter(MouseDragEvent.DRAG_DETECTED, new EventHandler<MouseEvent>() {
 
       @Override
@@ -145,6 +208,7 @@ public abstract class AbstractTile extends BorderPane {
           content.put(LETTER_LIST, getLetter());
           db.setContent(content);
 
+          // Create snapshot of the tile being dragged
           db.setDragView(createSnapshot());
           db.setDragViewOffsetX(getWidth() / 2);
           db.setDragViewOffsetY(getHeight() / 2);
@@ -154,15 +218,14 @@ public abstract class AbstractTile extends BorderPane {
       }
     });
 
-    /**
-     * Handles Drag over event
-     */
+    // Handle dragover event
     this.addEventFilter(DragEvent.DRAG_OVER, new EventHandler<DragEvent>() {
 
       @Override
       public void handle(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
 
+        // Make a hover effect if a tile is being dragged over
         if (dragboard.hasContent(LETTER_LIST)) {
           event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
           if (event.getTarget() instanceof AbstractTile) {
@@ -175,11 +238,13 @@ public abstract class AbstractTile extends BorderPane {
       }
     });
 
+    // Drag exited event
     this.addEventFilter(DragEvent.DRAG_EXITED, new EventHandler<DragEvent>() {
 
       @Override
       public void handle(DragEvent event) {
 
+        // Remove hover effect/opacity
         if (event.getTarget() instanceof AbstractTile) {
           AbstractTile tile = (AbstractTile) event.getTarget();
           tile.setOpacity(1.0);
@@ -189,31 +254,52 @@ public abstract class AbstractTile extends BorderPane {
       }
     });
 
-    /**
-     * Handles event where drag is dropped upon this tile
-     */
+    // Handles event where drag is dropped upon this tile
     this.addEventFilter(DragEvent.DRAG_DROPPED, new EventHandler<DragEvent>() {
 
       @Override
       public void handle(DragEvent event) {
         AbstractTile target = null;
         boolean dragCompleted = false;
-        // Transfer the data to the target
+        boolean failed = false;
         Dragboard dragboard = event.getDragboard();
         target = controller.getIntersection(event);
 
+        // If targets letter property isn't occupied
         if (dragboard.hasContent(LETTER_LIST) && !target.hasLetter()) {
+          Letter letter = (Letter) dragboard.getContent(LETTER_LIST);
+
+          // If the letter is being placed on the game board
           if (target instanceof GridTile) {
             target.getStyleClass().add("recently-placed");
-            if (((GridTile) target).getTileType() == TileType.STAR) {
+            event.getDragboard().setDragView(null);
+
+            // If the letter is a blank character, open the picker dialog
+            if (letter.getCharacter() == ' ') {
+              LetterDialog dialog = new LetterDialog(controller.getRootPane(), controller);
+              Character dialogLetter = (Character) dialog.showDialog();
+              if (dialogLetter != null) {
+                letter.setCharacter(dialogLetter);
+              } else {
+                failed = true;
+                target.getStyleClass().remove("recently-placed");
+              }
+
+              dialog = null;
+            }
+
+            // Custom handling for starting tile - change the star with text/char
+            if (((GridTile) target).getTileType() == TileType.STAR && !failed) {
               target.setCenter(target.character);
             }
           } else {
             target.getStyleClass().remove("recently-placed");
           }
 
-          setLetter((Letter) dragboard.getContent(LETTER_LIST));
-          dragCompleted = true;
+          if (!failed) {
+            setLetter(letter);
+            dragCompleted = true;
+          }
         }
 
         // Data transfer is not successful
@@ -222,20 +308,20 @@ public abstract class AbstractTile extends BorderPane {
       }
     });
 
-    /**
-     * What to do after drag is completed
-     */
+    // Cleanup after drag is done
     this.addEventFilter(DragEvent.DRAG_DONE, new EventHandler<DragEvent>() {
       @Override
       public void handle(DragEvent event) {
         TransferMode tm = event.getTransferMode();
         AbstractTile source = (AbstractTile) event.getSource();
         if (tm == TransferMode.MOVE) {
+          // If tile is dragged from board to rack, reset GridTile type style.
           if (source instanceof GridTile) {
             source.getStyleClass().addAll("tile", ((GridTile) source).getTileType().getClassName());
           }
           event.consume();
         } else {
+          // Something went wrong, reset
           Dragboard dragboard = event.getDragboard();
           resetDragTransferState((Letter) dragboard.getContent(LETTER_LIST));
           event.consume();

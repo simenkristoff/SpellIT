@@ -10,6 +10,13 @@ import spellit.core.models.Game;
 import spellit.core.models.Player;
 import spellit.ui.controllers.GameController;
 
+/**
+ * The Class Scoreboard. Renders each players name and score. Each player /w score is bound to
+ * properties in the core-module's Player class, and will update on changes in any of the player
+ * instances.
+ *
+ * @see Player
+ */
 public class Scoreboard extends AnchorPane {
 
   private final Game game;
@@ -18,6 +25,11 @@ public class Scoreboard extends AnchorPane {
   private final Text player1Score;
   private final Text player2Score;
 
+  /**
+   * Instantiates a new scoreboard.
+   *
+   * @param controller the controller
+   */
   public Scoreboard(GameController controller) {
     this.game = controller.getGame();
     List<Player> players = game.getPlayers();
@@ -28,6 +40,9 @@ public class Scoreboard extends AnchorPane {
     setupLayout();
   }
 
+  /**
+   * Setup layout.
+   */
   private void setupLayout() {
     this.setId("scoreboard");
     setPrefWidth(Board.BOARD_WIDTH);

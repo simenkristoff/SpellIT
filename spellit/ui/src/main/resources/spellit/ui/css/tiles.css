@@ -7,6 +7,7 @@
 	-fx-tile-triple-letter-bg-base: #73c663;
 	-fx-tile-double-letter-bg-base: #67acfe;
 	-fx-tile-star-base: #d40028;
+	-fx-tile-selected: #6200ee;
 }
 
 #gridContainer {
@@ -109,4 +110,9 @@
 
 .tile.letter Text {
 	-fx-fill: -fx-tile-border-base;
+}
+
+.tile.selected {
+	-fx-border-color:-fx-tile-selected;
+	-fx-border-width: 2;
 }

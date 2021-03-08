@@ -15,11 +15,19 @@ import spellit.ui.App;
 import spellit.ui.controllers.GameController;
 import spellit.ui.interfaces.TileContainerInterface;
 
+/**
+ * The Class GridContainer. Manages the UI-board with support of drag and drop functionality.
+ */
 public class GridContainer extends GridPane implements NextTurnListener, TileContainerInterface {
 
   private final GameController controller;
   private final ObservableList<GridTile> tiles = FXCollections.observableArrayList();
 
+  /**
+   * Instantiates a new grid container.
+   *
+   * @param controller the controller
+   */
   public GridContainer(GameController controller) {
     this.setId("gridContainer");
     this.controller = controller;
@@ -27,6 +35,9 @@ public class GridContainer extends GridPane implements NextTurnListener, TileCon
     setupGrid();
   }
 
+  /**
+   * Setup layout.
+   */
   private void setupLayout() {
     setPrefWidth(Board.BOARD_WIDTH);
     maxWidthProperty().bind(prefWidthProperty());
@@ -35,13 +46,19 @@ public class GridContainer extends GridPane implements NextTurnListener, TileCon
     setAlignment(Pos.BOTTOM_CENTER);
   }
 
+  /**
+   * Setup grid.
+   */
   private void setupGrid() {
+    // Setup row constraints
     for (int j = 0; j < Board.COLS; j++) {
       getColumnConstraints().add(new ColumnConstraints(Board.COL_SIZE, Board.COL_SIZE,
           Board.COL_SIZE, Priority.ALWAYS, HPos.CENTER, true));
       getRowConstraints().add(new RowConstraints(Board.COL_SIZE, Board.COL_SIZE, Board.COL_SIZE,
           Priority.ALWAYS, VPos.CENTER, true));
     }
+
+    // Add GridTiles
     for (int i = 0; i < Board.ROWS; i++) {
       for (int j = 0; j < Board.COLS; j++) {
         GridTile gridTile = new GridTile(this.controller, Board.COL_SIZE, i, j);
@@ -51,9 +68,13 @@ public class GridContainer extends GridPane implements NextTurnListener, TileCon
     }
   }
 
+  /**
+   * On next turn.
+   */
   @Override
   public void onNextTurn() {
     for (GridTile tile : tiles) {
+      // Remove style class from newly processed classes, and set them undraggable
       if (tile.hasLetter()) {
         tile.getStyleClass().remove("recently-placed");
         tile.setDisable(true);
@@ -70,11 +91,25 @@ public class GridContainer extends GridPane implements NextTurnListener, TileCon
     return App.class.getResource("css/tiles.css").toExternalForm();
   }
 
+  /**
+   * Mouse intersection.
+   *
+   * @param mouseX the mouse X-coordinate
+   * @param mouseY the mouse Y-coordinate
+   * @return true, if successful
+   */
   @Override
   public boolean mouseIntersection(double mouseX, double mouseY) {
     return this.getBoundsInParent().contains(mouseX, mouseY);
   }
 
+  /**
+   * Gets the intersecting tile.
+   *
+   * @param mouseX the mouse X-coordinate
+   * @param mouseY the mouse Y-coordinate
+   * @return the intersecting tile
+   */
   @Override
   public AbstractTile getIntersectingTile(double mouseX, double mouseY) {
     int col = (int) Math.floor((mouseX - this.getBoundsInParent().getMinX()) / Board.COL_SIZE);
