@@ -18,10 +18,18 @@ import spellit.ui.App;
 import spellit.ui.views.AbstractTile;
 import spellit.ui.views.GridContainer;
 import spellit.ui.views.PlayerRack;
-import spellit.ui.views.PopupDialog;
 import spellit.ui.views.Scoreboard;
 import spellit.ui.views.Sidebar;
+import spellit.ui.views.dialogs.AbstractDialog;
+import spellit.ui.views.dialogs.LoadGameDialog;
+import spellit.ui.views.dialogs.NewGameDialog;
+import spellit.ui.views.dialogs.SaveGameDialog;
+import spellit.ui.views.dialogs.WarningDialog;
+import spellit.ui.views.dialogs.WinnerDialog;
 
+/**
+ * The Class GameController. Handles the Game State logic.
+ */
 public class GameController extends AbstractStateController {
 
   @FXML
@@ -41,21 +49,41 @@ public class GameController extends AbstractStateController {
   private Sidebar sidebar;
   private GridContainer gridContainer;
   private PlayerRack playerRack;
-  private PopupDialog popup;
+  private AbstractDialog<?> popup;
 
+  /**
+   * Instantiates a new game controller.
+   *
+   * @param app the app
+   */
   public GameController(App app) {
     super(app);
   }
 
+  /**
+   * Initialize.
+   *
+   * @param location the location
+   * @param resources the resources
+   */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    this.popup = new PopupDialog(this.gamePane);
   }
 
+  /**
+   * Gets the game.
+   *
+   * @return the game
+   */
   public Game getGame() {
     return this.game;
   }
 
+  /**
+   * Sets the game.
+   *
+   * @param game the new game
+   */
   public void setGame(Game game) {
     this.game = game;
     this.clear();
@@ -64,6 +92,9 @@ public class GameController extends AbstractStateController {
     this.connectLogic();
   }
 
+  /**
+   * Initialize components.
+   */
   private void initializeComponents() {
     HBox.setHgrow(sidebarWrapper, Priority.SOMETIMES);
 
@@ -90,6 +121,9 @@ public class GameController extends AbstractStateController {
     VBox.setVgrow(playerRack, Priority.NEVER);
   }
 
+  /**
+   * Setup listeners.
+   */
   private void setupListeners() {
     game.addListener(playerRack, gridContainer, sidebar);
     game.winnerProperty().addListener(new ChangeListener<Player>() {
@@ -98,18 +132,28 @@ public class GameController extends AbstractStateController {
       public void changed(ObservableValue<? extends Player> observable, Player oldValue,
           Player newValue) {
         if (newValue != null) {
-          popup.showWinnerDialog(app, newValue);
+          popup = new WinnerDialog(gamePane, app, newValue);
+          popup.showDialog();
         }
       }
 
     });
   }
 
+  /**
+   * Clear the rendered components.
+   */
   private void clear() {
     boardWrapper.getChildren().removeAll(scoreboard, gridContainer, playerRack);
     sidebarWrapper.getChildren().remove(sidebar);
   }
 
+  /**
+   * Gets the intersection of mouse and any draggable tiles.
+   *
+   * @param event the event
+   * @return the intersecting tile
+   */
   public AbstractTile getIntersection(DragEvent event) {
     double x = event.getSceneX();
     double y = event.getSceneY();
@@ -121,6 +165,9 @@ public class GameController extends AbstractStateController {
     return null;
   }
 
+  /**
+   * Connect logic.
+   */
   private void connectLogic() {
 
     // Finish round
@@ -129,7 +176,8 @@ public class GameController extends AbstractStateController {
         game.board.processTurn();
         game.initiateNextTurn();
       } catch (TurnException e) {
-        popup.showWarningDialog(e.getMessage());
+        popup = new WarningDialog(gamePane, e.getMessage());
+        popup.showDialog();
       }
     });
     // Pass round
@@ -139,25 +187,26 @@ public class GameController extends AbstractStateController {
 
     // Save game
     sidebar.getSaveGameButton().setOnAction(event -> {
-      popup.showSaveGameDialog(this.game);
+      popup = new SaveGameDialog(gamePane, this.game);
+      popup.showDialog();
     });
 
     // Load game
     sidebar.getLoadGameButton().setOnAction(event -> {
-      Game loadedGame = popup.showLoadGameDialog();
+      popup = new LoadGameDialog(gamePane);
+      Game loadedGame = (Game) popup.showDialog();
       if (loadedGame != null) {
         this.setGame(loadedGame);
       }
-
     });
 
     // New game
     sidebar.getNewGameButton().setOnAction(event -> {
-      Game newGame = popup.showNewGameDialog();
+      popup = new NewGameDialog(gamePane);
+      Game newGame = (Game) popup.showDialog();
       if (newGame != null) {
         this.setGame(newGame);
       }
-
     });
 
     // Menu
@@ -172,6 +221,11 @@ public class GameController extends AbstractStateController {
     });
   }
 
+  /**
+   * Gets the root pane.
+   *
+   * @return the root pane
+   */
   public StackPane getRootPane() {
     return this.gamePane;
   }

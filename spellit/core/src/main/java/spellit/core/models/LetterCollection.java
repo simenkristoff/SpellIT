@@ -101,7 +101,7 @@ public class LetterCollection {
    */
   public void removeLetter(Letter letter) {
     for (Letter l : letters) {
-      if (l.character == letter.character) {
+      if (l.getCharacter() == letter.getCharacter()) {
         letters.remove(l);
         break;
       }
@@ -116,7 +116,7 @@ public class LetterCollection {
   public void removeLetters(ArrayList<Letter> letterCollection) {
     for (Letter letter : letterCollection) {
       for (Letter l : letters) {
-        if (l.character == letter.character) {
+        if (l.getCharacter() == letter.getCharacter()) {
           letters.remove(l);
           break;
         }

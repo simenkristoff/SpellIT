@@ -10,8 +10,13 @@ import javafx.scene.layout.StackPane;
 import spellit.core.models.Game;
 import spellit.ui.App;
 import spellit.ui.views.MainMenu;
-import spellit.ui.views.PopupDialog;
+import spellit.ui.views.dialogs.AbstractDialog;
+import spellit.ui.views.dialogs.LoadGameDialog;
+import spellit.ui.views.dialogs.NewGameDialog;
 
+/**
+ * The Class MenuController. Handles the Menu State logic.
+ */
 public class MenuController extends AbstractStateController {
 
   @FXML
@@ -24,29 +29,46 @@ public class MenuController extends AbstractStateController {
   HBox innerWrapper;
 
   private MainMenu mainMenu;
-  private PopupDialog popup;
+  private AbstractDialog<?> popup;
 
+  /**
+   * Instantiates a new menu controller.
+   *
+   * @param app the app
+   */
   public MenuController(App app) {
     super(app);
   }
 
+  /**
+   * Initialize.
+   *
+   * @param location the location
+   * @param resources the resources
+   */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    this.popup = new PopupDialog(this.menuPane);
     this.initializeComponents();
     this.connectLogic();
   }
 
+  /**
+   * Initialize components.
+   */
   private void initializeComponents() {
     mainMenu = new MainMenu();
     innerWrapper.getChildren().add(mainMenu);
     HBox.setHgrow(mainMenu, Priority.SOMETIMES);
   }
 
+  /**
+   * Connect logic.
+   */
   private void connectLogic() {
     // New game
     mainMenu.getNewGameButton().setOnAction(event -> {
-      Game newGame = popup.showNewGameDialog();
+      popup = new NewGameDialog(menuPane);
+      Game newGame = (Game) popup.showDialog();
       if (newGame != null) {
         app.setState(app.gameState);
         ((GameController) this.app.gameState.getController()).setGame(newGame);
@@ -55,7 +77,8 @@ public class MenuController extends AbstractStateController {
 
     // Load game
     mainMenu.getLoadGameButton().setOnAction(event -> {
-      Game loadedGame = popup.showLoadGameDialog();
+      popup = new LoadGameDialog(menuPane);
+      Game loadedGame = (Game) popup.showDialog();
       if (loadedGame != null) {
         app.setState(app.gameState);
         ((GameController) this.app.gameState.getController()).setGame(loadedGame);

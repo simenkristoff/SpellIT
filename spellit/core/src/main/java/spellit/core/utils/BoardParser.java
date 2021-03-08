@@ -179,21 +179,21 @@ public class BoardParser {
   private int parseLetters(Tile tile, Dir direction) throws InvalidWordException {
     StringBuilder sb = new StringBuilder();
     Tile parser = tile;
-    sb.append(parser.getLetter().character);
-    int points = parser.getLetter().points;
+    sb.append(parser.getLetter().getCharacter());
+    int points = parser.getLetter().getPoints();
     switch (direction) {
       case HORIZONTAL:
         while (tileMap.hasRight(parser)) {
           parser = tileMap.getRight(parser);
-          sb.append(parser.getLetter().character);
-          points += parser.getLetter().points;
+          sb.append(parser.getLetter().getCharacter());
+          points += parser.getLetter().getPoints();
         }
         break;
       case VERTICAL:
         while (tileMap.hasDown(parser)) {
           parser = tileMap.getDown(parser);
-          sb.append(parser.getLetter().character);
-          points += parser.getLetter().points;
+          sb.append(parser.getLetter().getCharacter());
+          points += parser.getLetter().getPoints();
         }
         break;
       default:
@@ -255,25 +255,25 @@ public class BoardParser {
             break;
           case TL:
             if (subwords.containsKey(tile)) {
-              subscore += subwords.get(tile) + tile.getLetter().points * 2;
+              subscore += subwords.get(tile) + tile.getLetter().getPoints() * 2;
             }
-            score += tile.getLetter().points * 3;
+            score += tile.getLetter().getPoints() * 3;
             break;
           case DL:
             if (subwords.containsKey(tile)) {
-              subscore += subwords.get(tile) + tile.getLetter().points;
+              subscore += subwords.get(tile) + tile.getLetter().getPoints();
             }
-            score += tile.getLetter().points * 2;
+            score += tile.getLetter().getPoints() * 2;
             break;
           default:
-            score += tile.getLetter().points;
+            score += tile.getLetter().getPoints();
             break;
         }
       } else {
-        score += tile.getLetter().points;
+        score += tile.getLetter().getPoints();
       }
       this.placedTiles.add(tileMap.getTile(tile));
-      sb.append(tile.getLetter().character);
+      sb.append(tile.getLetter().getCharacter());
     }
     String word = sb.toString();
     System.out.println(String.format("Placed word: %s, Points: %d", word, score));

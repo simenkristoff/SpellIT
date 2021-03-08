@@ -10,6 +10,9 @@ import spellit.core.events.NextTurnListener;
 import spellit.core.models.Game;
 import spellit.ui.controllers.GameController;
 
+/**
+ * The Class Sidebar. Renders the in-game sidebar.
+ */
 public class Sidebar extends VBox implements NextTurnListener {
 
   private final Game game;
@@ -22,6 +25,11 @@ public class Sidebar extends VBox implements NextTurnListener {
   private final JFXButton newGameBtn;
   private final JFXButton menuBtn;
 
+  /**
+   * Instantiates a new sidebar.
+   *
+   * @param controller the controller
+   */
   public Sidebar(GameController controller) {
     this.setId("sidebar");
     this.game = controller.getGame();
@@ -36,6 +44,9 @@ public class Sidebar extends VBox implements NextTurnListener {
     this.setupLayout();
   }
 
+  /**
+   * Setup layout.
+   */
   private void setupLayout() {
     setPadding(new Insets(5.0));
     this.setSpacing(10.0);
@@ -70,30 +81,63 @@ public class Sidebar extends VBox implements NextTurnListener {
 
   }
 
+  /**
+   * Gets the finish round button.
+   *
+   * @return the finish round button
+   */
   public JFXButton getFinishRoundButton() {
     return this.finishRoundBtn;
   }
 
+  /**
+   * Gets the pass round button.
+   *
+   * @return the pass round button
+   */
   public JFXButton getPassRoundButton() {
     return this.passRoundBtn;
   }
 
+  /**
+   * Gets the save game button.
+   *
+   * @return the save game button
+   */
   public JFXButton getSaveGameButton() {
     return this.saveGameBtn;
   }
 
+  /**
+   * Gets the load game button.
+   *
+   * @return the load game button
+   */
   public JFXButton getLoadGameButton() {
     return this.loadGameBtn;
   }
 
+  /**
+   * Gets the new game button.
+   *
+   * @return the new game button
+   */
   public JFXButton getNewGameButton() {
     return this.newGameBtn;
   }
 
+  /**
+   * Gets the menu button.
+   *
+   * @return the menu button
+   */
   public JFXButton getMenuButton() {
     return this.menuBtn;
   }
 
+  /**
+   * On next turn.
+   */
   @Override
   public void onNextTurn() {
     currentPlayer.setText(game.getCurrentPlayer().getName());

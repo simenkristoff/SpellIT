@@ -16,8 +16,14 @@ import javafx.stage.WindowEvent;
 import spellit.ui.controllers.GameController;
 import spellit.ui.controllers.MenuController;
 
+/**
+ * The Class App.
+ */
 public class App extends Application {
 
+  public static final String TITLE = "Spell IT";
+  public static final double WIDTH = 720;
+  public static final double HEIGHT = 664;
   private static final int LOAD_COUNTER = 25;
   public final State menuState = new State("menu", new MenuController(this));
   public final State gameState = new State("game", new GameController(this));
@@ -28,13 +34,19 @@ public class App extends Application {
   private Scene scene;
   private FXMLLoader loader;
 
+  /**
+   * Start the application.
+   *
+   * @param stage the stage
+   * @throws Exception the exception
+   */
   @Override
   public void start(Stage stage) throws Exception {
     loadFonts();
-    stage.setTitle("Spell It");
+    stage.setTitle(TITLE);
     stage.setScene(this.setupScene());
-    stage.setWidth(720);
-    stage.setHeight(664);
+    stage.setWidth(WIDTH);
+    stage.setHeight(HEIGHT);
     stage.setMaximized(false);
     stage.setResizable(false);
     stage.centerOnScreen();
@@ -47,9 +59,13 @@ public class App extends Application {
         close();
       }
     });
-
   }
 
+  /**
+   * Displays a splashscreen loader while the app is initializing.
+   *
+   * @throws Exception the exception
+   */
   public void init() throws Exception {
     for (int i = 0; i < LOAD_COUNTER; i++) {
       double progress = (double) i / LOAD_COUNTER;
@@ -58,6 +74,11 @@ public class App extends Application {
     }
   }
 
+  /**
+   * Setup the scene.
+   *
+   * @return the scene
+   */
   private Scene setupScene() {
     loader = new FXMLLoader();
     loader.setController(this);
@@ -70,10 +91,18 @@ public class App extends Application {
     return scene;
   }
 
+  /**
+   * Sets the state.
+   *
+   * @param state the new state
+   */
   public void setState(State state) {
     this.container.setCenter(state.loadView());
   }
 
+  /**
+   * Load fonts.
+   */
   private void loadFonts() {
     String[] robotoFonts = { "Black", "Bold", "Italic", "Light", "Medium", "Regular", "Thin" };
     for (String font : robotoFonts) {

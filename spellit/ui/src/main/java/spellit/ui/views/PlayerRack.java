@@ -20,6 +20,12 @@ import spellit.core.models.Player;
 import spellit.ui.controllers.GameController;
 import spellit.ui.interfaces.TileContainerInterface;
 
+/**
+ * The Class PlayerRack. Renders the a collection of tiles with letters drawn by the player.
+ *
+ * @see Player
+ * @see PlayerTile
+ */
 public class PlayerRack extends HBox implements NextTurnListener, TileContainerInterface {
 
   public static final double TILE_SIZE = 40.0;
@@ -30,6 +36,11 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
   private ArrayList<PlayerTile> tiles;
   private Player player;
 
+  /**
+   * Instantiates a new player rack.
+   *
+   * @param controller the controller
+   */
   public PlayerRack(GameController controller) {
     this.setId("rackWrapper");
     this.controller = controller;
@@ -42,6 +53,9 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
     setupInitialRack();
   }
 
+  /**
+   * Setup layout.
+   */
   private void setupLayout() {
     setPrefWidth(Board.BOARD_WIDTH);
     maxWidthProperty().bind(prefWidthProperty());
@@ -67,6 +81,9 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
 
   }
 
+  /**
+   * Setup constraints.
+   */
   private void setupConstraints() {
     rack.getRowConstraints().add(
         new RowConstraints(TILE_SIZE, TILE_SIZE, TILE_SIZE, Priority.ALWAYS, VPos.CENTER, true));
@@ -76,10 +93,19 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
     }
   }
 
+  /**
+   * Gets the swap button.
+   *
+   * @return the swap button
+   */
   public JFXButton getSwapButton() {
     return this.swapBtn;
   }
 
+  /**
+   * Setup initial rack. Draws initial letters from the letter collection, and initiates each player
+   * tile.
+   */
   private void setupInitialRack() {
     tiles = new ArrayList<PlayerTile>();
     for (Player player : game.getPlayers()) {
@@ -94,6 +120,9 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
     setupRackLetters();
   }
 
+  /**
+   * Setup rack letters. Changes the letters in the rack based on which player is currently playing.
+   */
   private void setupRackLetters() {
     int i = 0;
     for (Letter letter : player.getLetters()) {
@@ -107,24 +136,43 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
     }
   }
 
+  /**
+   * On next turn.
+   */
   @Override
   public void onNextTurn() {
     int index = 0;
+    // Replace used letters
     for (PlayerTile tile : tiles) {
       if (!tile.hasLetter()) {
         player.drawLetter(index);
       }
       index++;
     }
+    // Change current player.
     this.player = game.getCurrentPlayer();
     setupRackLetters();
   }
 
+  /**
+   * Mouse intersection.
+   *
+   * @param mouseX the mouse X-coordinate
+   * @param mouseY the mouse Y-coordinate
+   * @return true, if successful
+   */
   @Override
   public boolean mouseIntersection(double mouseX, double mouseY) {
     return this.getBoundsInParent().contains(mouseX, mouseY);
   }
 
+  /**
+   * Gets the intersecting tile.
+   *
+   * @param mouseX the mouse X-coordinate
+   * @param mouseY the mouse Y-coordinate
+   * @return the intersecting tile
+   */
   @Override
   public AbstractTile getIntersectingTile(double mouseX, double mouseY) {
     return tiles

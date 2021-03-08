@@ -4,7 +4,7 @@ import javafx.fxml.Initializable;
 import spellit.ui.App;
 
 /**
- * The Class AbstractViewController. Root-class for all ViewControllers
+ * The Class AbstractStateController. Wrapper for all StateControllers
  */
 public abstract class AbstractStateController implements Initializable {
 

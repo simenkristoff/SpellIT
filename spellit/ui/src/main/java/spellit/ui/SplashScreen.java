@@ -48,7 +48,7 @@ public class SplashScreen extends Preloader {
   public void handleApplicationNotification(PreloaderNotification info) {
     if (info instanceof ProgressNotification) {
       double progress = ((ProgressNotification) info).getProgress();
-      SplashController.setLabelText((progress * 100));
+      SplashController.setProgressText((progress * 100));
       SplashController.setProgressValue(progress);
     }
   }

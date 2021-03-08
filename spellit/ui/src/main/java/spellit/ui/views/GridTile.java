@@ -8,6 +8,12 @@ import spellit.core.models.Letter;
 import spellit.core.models.TileType;
 import spellit.ui.controllers.GameController;
 
+/**
+ * The Class GridTile. Class for Tiles on the Game Board. Each Tile has a tile type representing the
+ * bonus for letters placed on a specific tile.
+ *
+ * @see TileType
+ */
 public class GridTile extends AbstractTile {
 
   private final Game game;
@@ -16,6 +22,14 @@ public class GridTile extends AbstractTile {
   private final TileType tileType;
   private Region icon;
 
+  /**
+   * Instantiates a new grid tile.
+   *
+   * @param controller the controller
+   * @param size the size
+   * @param row the row
+   * @param col the column
+   */
   public GridTile(GameController controller, double size, int row, int col) {
     super(controller, size);
     this.game = controller.getGame();
@@ -42,10 +56,18 @@ public class GridTile extends AbstractTile {
     });
   }
 
+  /**
+   * Gets the tile type.
+   *
+   * @return the tile type
+   */
   public TileType getTileType() {
     return this.tileType;
   }
 
+  /**
+   * Setup layout.
+   */
   private void setupLayout() {
     this.getStyleClass().add("tile");
     if (this.tileType == TileType.STAR) {
@@ -67,6 +89,9 @@ public class GridTile extends AbstractTile {
 
   }
 
+  /**
+   * Sets the drag transfer state. Displays an empty tile while it's being dragged.
+   */
   @Override
   protected void setDragTransferState() {
     this.getStyleClass().remove("letter");
@@ -78,14 +103,24 @@ public class GridTile extends AbstractTile {
     this.points.setText("");
   }
 
+  /**
+   * Reset drag transfer state. Resets tile display.
+   *
+   * @param letter the letter
+   */
   @Override
   protected void resetDragTransferState(Letter letter) {
     addLetterStyle();
     setLetter(letter);
-    this.setCharacter(letter.character);
-    this.setPoints(letter.points);
+    this.setCharacter(letter.getCharacter());
+    this.setPoints(letter.getPoints());
   }
 
+  /**
+   * To string.
+   *
+   * @return the string
+   */
   @Override
   public String toString() {
     return "GridTile [tileType=" + tileType + ", letter=" + this.character + "]";
