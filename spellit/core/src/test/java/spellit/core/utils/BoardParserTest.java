@@ -26,7 +26,6 @@ public class BoardParserTest {
   private static Game game;
   private static TileMap tileMap;
   private static Dictionary dictionary;
-  private static ArrayList<Tile> placedTiles;
   private static BoardParser parser;
 
   /**
@@ -37,8 +36,7 @@ public class BoardParserTest {
     game = new Game();
     tileMap = new TileMap();
     dictionary = new Dictionary();
-    placedTiles = new ArrayList<Tile>();
-    parser = new BoardParser(game, tileMap, dictionary, placedTiles);
+    parser = new BoardParser(game, tileMap, dictionary);
   }
 
   @Test
@@ -151,7 +149,7 @@ public class BoardParserTest {
     Tile tileG2 = new Tile(8, 8, new Letter('G', 2));
 
     game.setTurnCount(1);
-    
+
     tileMap.setTile(tileD);
     tileMap.setTile(tileA);
     tileMap.setTile(tileG);

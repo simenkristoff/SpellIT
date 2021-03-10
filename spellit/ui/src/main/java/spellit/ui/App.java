@@ -49,7 +49,7 @@ public class App extends Application {
    * @throws Exception the exception
    */
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
     Parameters params = getParameters();
     parseArgs(params.getRaw());
     loadFonts();
@@ -127,7 +127,7 @@ public class App extends Application {
       scene = new Scene(loader.load(in));
       scene.getStylesheets().setAll(getClass().getResource("css/styles.css").toExternalForm());
     } catch (IOException e) {
-      e.printStackTrace();
+      close();
     }
     return scene;
   }

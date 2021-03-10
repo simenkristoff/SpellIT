@@ -20,7 +20,6 @@ public class BoardParser {
   private final Game game;
   private final TileMap tileMap;
   private final Dictionary dictionary;
-  private final ArrayList<Tile> placedTiles;
 
   /**
    * Instantiates a new board parser.
@@ -28,14 +27,11 @@ public class BoardParser {
    * @param game the game
    * @param tileMap the tile map
    * @param dictionary the dictionary
-   * @param placedTiles the placed tiles
    */
-  public BoardParser(Game game, TileMap tileMap, Dictionary dictionary,
-      ArrayList<Tile> placedTiles) {
+  public BoardParser(Game game, TileMap tileMap, Dictionary dictionary) {
     this.game = game;
     this.tileMap = tileMap;
     this.dictionary = dictionary;
-    this.placedTiles = placedTiles;
   }
 
   /**
@@ -280,7 +276,6 @@ public class BoardParser {
       } else {
         score += tile.getLetter().getPoints();
       }
-      this.placedTiles.add(tileMap.getTile(tile));
       sb.append(tile.getLetter().getCharacter());
     }
     String word = sb.toString();

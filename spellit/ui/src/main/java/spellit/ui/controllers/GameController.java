@@ -187,7 +187,7 @@ public class GameController extends AbstractStateController {
 
     // Save game
     sidebar.getSaveGameButton().setOnAction(event -> {
-      popup = new SaveGameDialog(gamePane, this.game);
+      popup = new SaveGameDialog(gamePane, game);
       popup.showDialog();
     });
 

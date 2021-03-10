@@ -32,7 +32,7 @@ public class Board {
     this.game = game;
     this.dictionary = new Dictionary();
     this.tileMap = new TileMap();
-    this.parser = new BoardParser(this.game, this.tileMap, this.dictionary, this.placedTiles);
+    this.parser = new BoardParser(this.game, this.tileMap, this.dictionary);
   }
 
   /**
@@ -129,6 +129,7 @@ public class Board {
    * Clean up. Clears the board logic before next turn.
    */
   private void cleanUp() {
+    this.placedTiles.addAll(unprocessedTiles);
     unprocessedTiles = new ArrayList<Tile>();
   }
 
