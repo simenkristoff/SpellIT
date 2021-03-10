@@ -11,18 +11,27 @@ import spellit.ui.controllers.AbstractStateController;
  */
 public class State {
 
-  private String fxml;
+  private String id;
   private AbstractStateController controller;
 
   /**
    * Instantiates a new state.
    *
-   * @param fxml the fxml
+   * @param id the state id
    * @param controller the controller
    */
-  State(String fxml, AbstractStateController controller) {
-    this.fxml = fxml;
+  State(String id, AbstractStateController controller) {
+    this.id = id;
     this.controller = controller;
+  }
+
+  /**
+   * Gets the state id.
+   * 
+   * @return the id
+   */
+  public String getId() {
+    return this.id;
   }
 
   /**
@@ -43,8 +52,7 @@ public class State {
     FXMLLoader loader = new FXMLLoader();
     loader.setController(this.controller);
     Region region = null;
-    try (
-        InputStream in = App.class.getResourceAsStream(String.format("views/%s.fxml", this.fxml))) {
+    try (InputStream in = App.class.getResourceAsStream(String.format("views/%s.fxml", this.id))) {
       region = loader.load(in);
     } catch (IOException e) {
       e.printStackTrace();

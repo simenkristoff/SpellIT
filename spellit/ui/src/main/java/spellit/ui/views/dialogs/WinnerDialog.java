@@ -22,7 +22,7 @@ public class WinnerDialog extends AbstractDialog<Boolean> {
    * @param winner the winner
    */
   public WinnerDialog(StackPane root, App app, Player winner) {
-    super(root, "Til hovedmenyen", false, false);
+    super("winner-dialog", root, "Til hovedmenyen", false, false);
     this.app = app;
     this.winner = winner;
     this.setTitle("Spillet er ferdig");

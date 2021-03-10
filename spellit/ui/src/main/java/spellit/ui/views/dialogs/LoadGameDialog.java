@@ -21,7 +21,7 @@ public class LoadGameDialog extends AbstractDialog<Game> {
    * @param root the root pane
    */
   public LoadGameDialog(StackPane root) {
-    super(root, "Last inn", true, true);
+    super("load_game-dialog", root, "Last inn", true, true);
     this.setTitle("Last inn spill");
     this.setupDialog();
   }

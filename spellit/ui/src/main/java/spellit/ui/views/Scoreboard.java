@@ -31,6 +31,7 @@ public class Scoreboard extends AnchorPane {
    * @param controller the controller
    */
   public Scoreboard(GameController controller) {
+    this.setId("scoreboard");
     this.game = controller.getGame();
     List<Player> players = game.getPlayers();
     this.player1 = players.get(0);
@@ -44,7 +45,6 @@ public class Scoreboard extends AnchorPane {
    * Setup layout.
    */
   private void setupLayout() {
-    this.setId("scoreboard");
     setPrefWidth(Board.BOARD_WIDTH);
     maxWidthProperty().bind(prefWidthProperty());
     setPrefHeight(50.0);

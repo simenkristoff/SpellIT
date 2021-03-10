@@ -80,7 +80,7 @@
 			<configuration>
 				<options>
 					<option>--enable-preview</option>
-					<option>-Dfile.encoding=UTF-18</option>
+					<option>-Dfile.encoding=UTF-8</option>
 					<option>--add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED</option>
 					<option>--add-exports javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED</option>
                 </options>

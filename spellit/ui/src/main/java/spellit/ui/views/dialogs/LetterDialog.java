@@ -41,7 +41,7 @@ public class LetterDialog extends AbstractDialog<Character> {
    * @param controller the controller
    */
   public LetterDialog(StackPane root, GameController controller) {
-    super(root, "Velg", true, true);
+    super("letter-dialog", root, "Velg", true, true);
     this.controller = controller;
     this.setTitle("Last inn spill");
     this.grid = new GridPane();

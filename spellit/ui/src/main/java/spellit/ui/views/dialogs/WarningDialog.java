@@ -18,7 +18,7 @@ public class WarningDialog extends AbstractDialog<Boolean> {
    * @param message the message
    */
   public WarningDialog(StackPane root, String message) {
-    super(root, "Ok", false, false);
+    super("warning-dialog", root, "Ok", false, false);
     this.message = new Text(message);
     this.setTitle("Advarsel");
     this.setupDialog();

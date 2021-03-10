@@ -48,6 +48,7 @@ public class PlayerRack extends HBox implements NextTurnListener, TileContainerI
     this.player = game.getCurrentPlayer();
     this.rack = new GridPane();
     this.swapBtn = new JFXButton();
+    swapBtn.getStyleClass().add("swap_tiles-button");
     setupLayout();
     setupConstraints();
     setupInitialRack();

@@ -5,7 +5,7 @@ package spellit.core.exceptions;
  */
 public class InvalidWordException extends TurnException {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = -6281831354709234627L;
 
   /**
    * Instantiates a new invalid word exception.

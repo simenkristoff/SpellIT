@@ -17,7 +17,7 @@ public class NewGameDialog extends AbstractDialog<Game> {
    * @param root the root pane
    */
   public NewGameDialog(StackPane root) {
-    super(root, "Start nytt spill", true, true);
+    super("new_game-dialog", root, "Start nytt spill", true, true);
     this.setTitle("Start nytt spill");
     this.setupDialog();
   }
@@ -28,9 +28,11 @@ public class NewGameDialog extends AbstractDialog<Game> {
   @Override
   protected void setupDialog() {
     JFXTextField player1Name = new JFXTextField();
+    player1Name.setId("player1-inputfield");
     player1Name.setPromptText("Spiller 1");
     JFXTextField player2Name = new JFXTextField();
     player2Name.setPromptText("Spiller 2");
+    player2Name.setId("player2-inputfield");
 
     this.setContent(player1Name, player2Name);
 

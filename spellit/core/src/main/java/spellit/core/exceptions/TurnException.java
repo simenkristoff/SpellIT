@@ -5,7 +5,7 @@ package spellit.core.exceptions;
  */
 public class TurnException extends Exception {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 63807556370834474L;
 
   /**
    * Instantiates a new turn exception.

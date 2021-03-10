@@ -22,8 +22,11 @@ public class MainMenu extends VBox {
   public MainMenu() {
     this.setId("main-menu");
     this.newGameBtn = new JFXButton("Nytt spill");
+    newGameBtn.getStyleClass().add("new_game-button");
     this.loadGameBtn = new JFXButton("Last inn spill");
+    loadGameBtn.getStyleClass().add("load_game-button");
     this.quitBtn = new JFXButton("Avslutt spillet");
+    quitBtn.getStyleClass().add("quit-button");
     this.setupLayout();
   }
 

@@ -34,11 +34,12 @@ public abstract class AbstractDialog<T> {
    * @param displayErrors whether to render error messages or not
    * @param hasCancelButton whether the dialog has a Cancel-button or not
    */
-  public AbstractDialog(StackPane root, String okBtnText, boolean displayErrors,
+  public AbstractDialog(String id, StackPane root, String okBtnText, boolean displayErrors,
       boolean hasCancelButton) {
     this.root = root;
     this.dialog = new JFXAlert<T>(root.getScene().getWindow());
     this.layout = new JFXDialogLayout();
+    this.layout.setId(id);
     this.contentWrapper = new VBox();
     this.title = new Text();
     this.errorMsg = new Text();
@@ -60,7 +61,7 @@ public abstract class AbstractDialog<T> {
     this.layout.maxWidthProperty().bind(this.layout.minWidthProperty());
     this.layout.maxHeightProperty().bind(this.layout.minHeightProperty());
     title.setFill(Color.WHITE);
-    errorMsg.getStyleClass().add("danger");
+    errorMsg.getStyleClass().addAll("danger", "error-message");
     layout.setHeading(title);
     layout.getStyleClass().add("dialog-dark");
     layout.setBody(contentWrapper);
@@ -79,12 +80,13 @@ public abstract class AbstractDialog<T> {
     if (hasCancelButton) {
       this.cancelBtn = new JFXButton("Avbryt");
       cancelBtn.setCancelButton(true);
-      cancelBtn.getStyleClass().add("danger");
+      cancelBtn.getStyleClass().addAll("danger", "close-button");
       cancelBtn.setOnAction(event -> dialog.close());
       layout.getActions().add(cancelBtn);
     }
     this.okBtn = new JFXButton(okBtnText);
     okBtn.setDefaultButton(true);
+    okBtn.getStyleClass().add("submit-button");
     layout.getActions().add(okBtn);
   }
 

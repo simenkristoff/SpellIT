@@ -19,7 +19,7 @@ public class SaveGameDialog extends AbstractDialog<Boolean> {
    * @param game the game
    */
   public SaveGameDialog(StackPane root, Game game) {
-    super(root, "Lagre", true, true);
+    super("save_game-dialog", root, "Lagre", true, true);
     this.game = game;
     this.setTitle("Lagre spill");
     this.setupDialog();

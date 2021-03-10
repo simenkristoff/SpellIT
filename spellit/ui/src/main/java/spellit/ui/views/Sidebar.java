@@ -34,13 +34,20 @@ public class Sidebar extends VBox implements NextTurnListener {
     this.setId("sidebar");
     this.game = controller.getGame();
     this.currentPlayer = new Text();
+    currentPlayer.getStyleClass().add("current_player-label");
     this.tilesLeft = new VBox();
     this.finishRoundBtn = new JFXButton("Ferdig");
+    finishRoundBtn.getStyleClass().add("finish_round-button");
     this.passRoundBtn = new JFXButton("Stå over");
+    passRoundBtn.getStyleClass().add("pass_round-button");
     this.saveGameBtn = new JFXButton("Lagre spill");
+    saveGameBtn.getStyleClass().add("save_game-button");
     this.loadGameBtn = new JFXButton("Last inn spill");
+    loadGameBtn.getStyleClass().add("load_game-button");
     this.newGameBtn = new JFXButton("Nytt spill");
+    newGameBtn.getStyleClass().add("new_game-button");
     this.menuBtn = new JFXButton("Gå til menyen");
+    menuBtn.getStyleClass().add("sidebar-menu-button");
     this.setupLayout();
   }
 

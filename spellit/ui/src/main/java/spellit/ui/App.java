@@ -2,6 +2,7 @@ package spellit.ui;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.application.Preloader;
@@ -13,6 +14,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import spellit.core.models.Game;
+import spellit.core.persistence.FileHandler;
 import spellit.ui.controllers.GameController;
 import spellit.ui.controllers.MenuController;
 
@@ -25,8 +28,13 @@ public class App extends Application {
   public static final double WIDTH = 720;
   public static final double HEIGHT = 664;
   private static final int LOAD_COUNTER = 25;
+
   public final State menuState = new State("menu", new MenuController(this));
   public final State gameState = new State("game", new GameController(this));
+
+  private final List<State> states = List.of(menuState, gameState);
+  private State initialState = menuState;
+  private Game initialGame;
 
   @FXML
   BorderPane container;
@@ -42,6 +50,8 @@ public class App extends Application {
    */
   @Override
   public void start(Stage stage) throws Exception {
+    Parameters params = getParameters();
+    parseArgs(params.getRaw());
     loadFonts();
     stage.setTitle(TITLE);
     stage.setScene(this.setupScene());
@@ -50,7 +60,11 @@ public class App extends Application {
     stage.setMaximized(false);
     stage.setResizable(false);
     stage.centerOnScreen();
-    setState(menuState);
+    setState(this.initialState);
+    if (initialState == this.gameState) {
+      Game game = initialGame != null ? initialGame : new Game();
+      ((GameController) initialState.getController()).setGame(game);
+    }
     stage.show();
 
     stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -71,6 +85,33 @@ public class App extends Application {
       double progress = (double) i / LOAD_COUNTER;
       this.notifyPreloader(new Preloader.ProgressNotification(progress));
       Thread.sleep(100);
+    }
+  }
+
+  /**
+   * Sets the game's initial state.
+   *
+   * @param parameters game state parameters
+   */
+  private void parseArgs(List<String> parameters) {
+    if (parameters.isEmpty()) {
+      return;
+    }
+    // Set state
+    for (State state : states) {
+      if (parameters.get(0).contains(state.getId())) {
+        this.initialState = state;
+      }
+    }
+
+    // Set Game instance
+    String savefile = parameters.get(1);
+    if (savefile != null) {
+      try {
+        this.initialGame = FileHandler.loadGame(String.format("%s.json", savefile));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
   }
 
