@@ -43,7 +43,7 @@ Prosjektets moduler tilhører pom-filen [spellit](spellit/pom.xml), og er ytteli
 - [(**javafx-maven-plugin**)](https://github.com/openjfx/javafx-maven-plugin) - kjøring av **JavaFx-applikasjonen**
 
 ## Kommandoer
-Rydder opp i tidligere kompilerte filer, og installerer avhengigheter
+Rydder opp i tidligere kompilerte filer, og installerer avhengigheter. Krever java versjon - JDK 14 og oppover.
 
 ```mvn clean install```
 
