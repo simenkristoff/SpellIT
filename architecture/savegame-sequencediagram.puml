@@ -1,0 +1,14 @@
+@startuml
+header JavaFx-client - Save current game instance
+
+box UI #lightblue
+participant SaveGameDialog
+end box
+box Core #yellow
+participant FileHandler
+end box
+collections Saves
+
+SaveGameDialog-[#blue]> FileHandler: saveGame(game, filename)
+FileHandler -[#blue]> Saves: serialized JSON-file
+@enduml

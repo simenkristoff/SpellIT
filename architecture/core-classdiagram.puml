@@ -1,0 +1,231 @@
+@startuml
+class Letter [[java:spellit.core.models.Letter]] {
+	-{static}long serialVersionUID
+	-char character
+	-int points
+	+Letter()
+	+Letter(char character, int points)
+	+char getCharacter()
+	+void setCharacter(char character)
+	+int getPoints()
+	+void setPoints(int points)
+	+String toString()
+}
+interface Serializable [[java:java.io.Serializable]] {
+}
+Serializable <|.. Letter
+class Board [[java:spellit.core.models.Board]] {
+	+{static}int BOARD_WIDTH
+	+{static}int BOARD_HEIGHT
+	+{static}int COLS
+	+{static}int ROWS
+	+{static}double COL_SIZE
+	-ArrayList<Tile> unprocessedTiles
+	-ArrayList<Tile> placedTiles
+	+Board(Game game)
+	+void setTile(int row, int col, Letter letter)
+	+void removeTile(int row, int col)
+	+TileMap getTileMap()
+	+ArrayList<Tile> getPlacedTiles()
+	+ArrayList<Tile> getUnprocessedTiles()
+	+void loadTiles(List<Tile> placedTiles)
+	+TileType getTileType(int row, int col)
+	+void processTurn()
+	-void cleanUp()
+}
+class Game [[java:spellit.core.models.Game]] {
+}
+Board --> "1" Game : game
+class TileMap [[java:spellit.core.models.TileMap]] {
+}
+Board --> "1" TileMap : tileMap
+class Dictionary [[java:spellit.core.models.Dictionary]] {
+}
+Board --> "1" Dictionary : dictionary
+class BoardParser [[java:spellit.core.utils.BoardParser]] {
+}
+Board --> "1" BoardParser : parser
+class Tile [[java:spellit.core.models.Tile]] {
+	-int row
+	-int col
+	-ObjectProperty<Letter> letterProperty
+	-BooleanProperty processedProperty
+	+Tile(int row, int col, TileType tileType)
+	+Tile(int row, int col, Letter letter)
+	+boolean hasLetter()
+	+Letter getLetter()
+	+void setLetter(Letter letter)
+	+void removeLetter()
+	+boolean isProcessed()
+	+void setProcessed(boolean value)
+	+int getRow()
+	+int getCol()
+	+TileType getTileType()
+	+String toString()
+}
+class TileType [[java:spellit.core.models.TileType]] {
+}
+Tile --> "1" TileType : tileType
+class BoardParser [[java:spellit.core.utils.BoardParser]] {
+	+BoardParser(Game game, TileMap tileMap, Dictionary dictionary)
+	+void parseBoard(ArrayList<Tile> unprocessedTiles)
+	-Tile findOrigin(Tile tile, Dir direction)
+	-int parseLetters(Tile tile, Dir direction)
+	-int findSubwords(Tile tile, Dir direction)
+	-void calculateScore(ArrayList<Tile> tiles, Map<Tile,Integer> subwords)
+	-void verifyInitialTurn(ArrayList<Tile> unprocessedTiles)
+}
+class Game [[java:spellit.core.models.Game]] {
+}
+BoardParser --> "1" Game : game
+class TileMap [[java:spellit.core.models.TileMap]] {
+}
+BoardParser --> "1" TileMap : tileMap
+class Dictionary [[java:spellit.core.models.Dictionary]] {
+}
+BoardParser --> "1" Dictionary : dictionary
+class Player [[java:spellit.core.models.Player]] {
+	-IntegerProperty pointsProperty
+	-StringProperty scoreProperty
+	-StringProperty nameProperty
+	-boolean playing
+	-ArrayList<Letter> letters
+	+Player(Game game, String name)
+	+Player(String name, List<Letter> letters)
+	+IntegerProperty pointsProperty()
+	+StringProperty scoreProperty()
+	+StringProperty nameProperty()
+	+ArrayList<Letter> getLetters()
+	+void setLetters(ArrayList<Letter> letters)
+	+void drawInitialLetters()
+	+Letter drawLetter(int index)
+	+void swapLetters()
+	+boolean isPlaying()
+	+void addPoints(int points)
+	+void setPoints(int points)
+	+int getPoints()
+	+String getName()
+	+void setName(String name)
+	+String toString()
+}
+class Game [[java:spellit.core.models.Game]] {
+}
+Player --> "1" Game : game
+class Game [[java:spellit.core.models.Game]] {
+	-ObjectProperty<Player> winnerProperty
+	-int turnCount
+	+Game()
+	+Game(String player1Name, String player2Name)
+	+void addListener(NextTurnListener listener)
+	+void addListener(NextTurnListener[] listeners)
+	+void removeListener(NextTurnListener listener)
+	+int getTurnCount()
+	+void setTurnCount(int turnCount)
+	+List<Player> getPlayers()
+	+void setPlayers(List<Player> players)
+	-void loadPlayer(Player gamePlayer, Player json)
+	+Player getCurrentPlayer()
+	-void setCurrentPlayer()
+	+ObjectProperty<Player> winnerProperty()
+	+Player getWinner()
+	+ArrayList<Tile> getPlacedTiles()
+	+void setPlacedTiles(List<Tile> placedTiles)
+	+void initiateNextTurn()
+}
+class Board [[java:spellit.core.models.Board]] {
+}
+Game --> "1" Board : board
+class LetterCollection [[java:spellit.core.models.LetterCollection]] {
+}
+Game --> "1" LetterCollection : letterCollection
+class Player [[java:spellit.core.models.Player]] {
+}
+Game --> "1" Player : player1
+class Player [[java:spellit.core.models.Player]] {
+}
+Game --> "1" Player : player2
+class Player [[java:spellit.core.models.Player]] {
+}
+Game --> "1" Player : currentPlayer
+class NextTurnListener [[java:spellit.core.events.NextTurnListener]] {
+}
+Game --> "*" NextTurnListener : nextTurnListeners
+enum TileType [[java:spellit.core.models.TileType]] {
+	TW
+	DW
+	TL
+	DL
+	STAR
+	DEFAULT
+	value
+	className
+	-TileType(String value, String className)
+	+String getValue()
+	+String getClassName()
+}
+class FileHandler [[java:spellit.core.persistence.FileHandler]] {
+	-{static}String SAVE_DIR
+	-{static}ObjectMapper objectMapper
+	+{static}void saveGame(Game game, String filename)
+	+{static}Game loadGame(String filename)
+	+{static}File[] getSaveFiles()
+}
+class Letter [[java:spellit.core.models.Letter]] {
+}
+class TileMap [[java:spellit.core.models.TileMap]] {
+	+Tile[][] tiles
+	+TileMap()
+	+Tile getTile(int row, int col)
+	+Tile getTile(Tile tile)
+	+void setTile(Tile tile)
+	+void removeTile(Tile tile)
+	+TileType getBonus(Tile tile)
+	+boolean hasLeft(Tile tile)
+	+boolean hasRight(Tile tile)
+	+boolean hasUp(Tile tile)
+	+boolean hasDown(Tile tile)
+	+Tile getLeft(Tile tile)
+	+Tile getRight(Tile tile)
+	+Tile getUp(Tile tile)
+	+Tile getDown(Tile tile)
+}
+class TrieTree [[java:spellit.core.utils.TrieTree]] {
+	-TrieNode root
+	~{static}int ALPHABET_SIZE
+	+TrieTree()
+	+void insert(String key)
+	+boolean search(String key)
+	-int translateIndex(char c)
+}
+class TileType [[java:spellit.core.models.TileType]] {
+}
+interface NextTurnListener [[java:spellit.core.events.NextTurnListener]] {
+	void onNextTurn()
+}
+interface EventListener [[java:java.util.EventListener]] {
+}
+EventListener <|-- NextTurnListener
+class LetterCollection [[java:spellit.core.models.LetterCollection]] {
+	-ObservableList<Letter> letters
+	-StringProperty textProperty
+	-Random rand
+	+LetterCollection()
+	+StringProperty textProperty()
+	+int size()
+	+boolean isEmpty()
+	+void put(Letter letter)
+	+void removeLetter(Letter letter)
+	+void removeLetters(ArrayList<Letter> letterCollection)
+	+ArrayList<Letter> drawInitialLetters()
+	+Letter drawRandomLetter()
+}
+interface NextTurnListener [[java:spellit.core.events.NextTurnListener]] {
+}
+class Dictionary [[java:spellit.core.models.Dictionary]] {
+	+Dictionary()
+	+boolean lookup(String word)
+}
+class TrieTree [[java:spellit.core.utils.TrieTree]] {
+}
+Dictionary --> "1" TrieTree : root
+@enduml

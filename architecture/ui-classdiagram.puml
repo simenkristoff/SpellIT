@@ -1,0 +1,250 @@
+@startuml
+abstract class "AbstractDialog<T>" as AbstractDialog_T_ [[java:spellit.ui.views.dialogs.AbstractDialog]] {
+	#JFXAlert<T> dialog
+	#StackPane root
+	#JFXDialogLayout layout
+	-VBox contentWrapper
+	-Text title
+	-Text errorMsg
+	-JFXButton cancelBtn
+	-JFXButton okBtn
+	+AbstractDialog(String id, StackPane root, String okBtnText, boolean displayErrors, boolean hasCancelButton)
+	-void setupLayout(boolean displayErrors)
+	-void setupButtons(String okBtnText, boolean hasCancelButton)
+	#void setTitle(String title)
+	#JFXButton getOkButton()
+	#void setError(String error)
+	#void setContent(Node[] elements)
+	#{abstract}void setupDialog()
+	+{abstract}T showDialog()
+}
+class PlayerRack [[java:spellit.ui.views.PlayerRack]] {
+	+{static}double TILE_SIZE
+	-Game game
+	-GridPane rack
+	-JFXButton swapBtn
+	-ArrayList<PlayerTile> tiles
+	-Player player
+	+PlayerRack(GameController controller)
+	-void setupLayout()
+	-void setupConstraints()
+	+JFXButton getSwapButton()
+	-void setupInitialRack()
+	-void setupRackLetters()
+	+void onNextTurn()
+	+boolean mouseIntersection(double mouseX, double mouseY)
+	+AbstractTile getIntersectingTile(double mouseX, double mouseY)
+}
+class GameController [[java:spellit.ui.controllers.GameController]] {
+}
+PlayerRack --> "1" GameController : controller
+interface NextTurnListener [[java:spellit.core.events.NextTurnListener]] {
+}
+NextTurnListener <|.. PlayerRack
+class GameController [[java:spellit.ui.controllers.GameController]] {
+}
+AbstractDialog_T_ --> "1" GameController : controller
+class App [[java:spellit.ui.App]] {
+}
+AbstractDialog_T_ --> "1" App : app
+
+class AbstractTile [[java:spellit.ui.views.AbstractTile]] {
+}
+AbstractTile <|-- PlayerTile
+class GameController [[java:spellit.ui.controllers.GameController]] {
+	~StackPane gamePane
+	~HBox gameWrapper
+	~AnchorPane sidebarWrapper
+	~VBox boardWrapper
+	-Game game
+	-AbstractDialog<?> popup
+	+GameController(App app)
+	+void initialize(URL location, ResourceBundle resources)
+	+Game getGame()
+	+void setGame(Game game)
+	-void initializeComponents()
+	-void setupListeners()
+	-void clear()
+	+AbstractTile getIntersection(DragEvent event)
+	-void connectLogic()
+	+StackPane getRootPane()
+}
+class Scoreboard [[java:spellit.ui.views.Scoreboard]] {
+}
+GameController --> "1" Scoreboard : scoreboard
+class Sidebar [[java:spellit.ui.views.Sidebar]] {
+}
+GameController --> "1" Sidebar : sidebar
+class GridContainer [[java:spellit.ui.views.GridContainer]] {
+}
+GameController --> "1" GridContainer : gridContainer
+class PlayerRack [[java:spellit.ui.views.PlayerRack]] {
+}
+GameController --> "1" PlayerRack : playerRack
+class AbstractStateController [[java:spellit.ui.controllers.AbstractStateController]] {
+}
+AbstractStateController <|-- GameController
+class Sidebar [[java:spellit.ui.views.Sidebar]] {
+	-Game game
+	-Text currentPlayer
+	-VBox tilesLeft
+	-JFXButton finishRoundBtn
+	-JFXButton passRoundBtn
+	-JFXButton saveGameBtn
+	-JFXButton loadGameBtn
+	-JFXButton newGameBtn
+	-JFXButton menuBtn
+	+Sidebar(GameController controller)
+	-void setupLayout()
+	+JFXButton getFinishRoundButton()
+	+JFXButton getPassRoundButton()
+	+JFXButton getSaveGameButton()
+	+JFXButton getLoadGameButton()
+	+JFXButton getNewGameButton()
+	+JFXButton getMenuButton()
+	+void onNextTurn()
+}
+interface NextTurnListener [[java:spellit.core.events.NextTurnListener]] {
+}
+NextTurnListener <|.. Sidebar
+class App [[java:spellit.ui.App]] {
+	+{static}String TITLE
+	+{static}double WIDTH
+	+{static}double HEIGHT
+	-{static}int LOAD_COUNTER
+	-Game initialGame
+	~BorderPane container
+	-Scene scene
+	-FXMLLoader loader
+	+void start(Stage stage)
+	+void init()
+	-void parseArgs(List<String> parameters)
+	-Scene setupScene()
+	+void setState(State state)
+	-void loadFonts()
+	+void close()
+	+{static}void main(String[] args)
+}
+class State [[java:spellit.ui.State]] {
+}
+App --> "1" State : menuState
+class State [[java:spellit.ui.State]] {
+}
+App --> "1" State : gameState
+class State [[java:spellit.ui.State]] {
+}
+App --> "*" State : states
+class State [[java:spellit.ui.State]] {
+}
+App --> "1" State : initialState
+class Application [[java:com.sun.glass.ui.Application]] {
+}
+Application <|-- App
+class MenuController [[java:spellit.ui.controllers.MenuController]] {
+	~StackPane menuPane
+	~AnchorPane menuWrapper
+	~HBox innerWrapper
+	-AbstractDialog<?> popup
+	+MenuController(App app)
+	+void initialize(URL location, ResourceBundle resources)
+	-void initializeComponents()
+	-void connectLogic()
+}
+class MainMenu [[java:spellit.ui.views.MainMenu]] {
+}
+MenuController --> "1" MainMenu : mainMenu
+class AbstractStateController [[java:spellit.ui.controllers.AbstractStateController]] {
+}
+AbstractStateController <|-- MenuController
+class State [[java:spellit.ui.State]] {
+	-String id
+	~State(String id, AbstractStateController controller)
+	+String getId()
+	+AbstractStateController getController()
+	+Region loadView()
+}
+class AbstractStateController [[java:spellit.ui.controllers.AbstractStateController]] {
+}
+State --> "1" AbstractStateController : controller
+class GridTile [[java:spellit.ui.views.GridTile]] {
+	-Game game
+	-int row
+	-int col
+	-TileType tileType
+	-Region icon
+	+GridTile(GameController controller, double size, int row, int col)
+	+TileType getTileType()
+	-void setupLayout()
+	#void setDragTransferState()
+	#void resetDragTransferState(Letter letter)
+	+String toString()
+}
+class AbstractTile [[java:spellit.ui.views.AbstractTile]] {
+}
+AbstractTile <|-- GridTile
+class MainMenu [[java:spellit.ui.views.MainMenu]] {
+	-JFXButton newGameBtn
+	-JFXButton loadGameBtn
+	-JFXButton quitBtn
+	+MainMenu()
+	-void setupLayout()
+	+JFXButton getNewGameButton()
+	+JFXButton getLoadGameButton()
+	+JFXButton getQuitButton()
+}
+abstract class AbstractStateController [[java:spellit.ui.controllers.AbstractStateController]] {
+	+AbstractStateController(App app)
+}
+class App [[java:spellit.ui.App]] {
+}
+AbstractStateController --> "1" App : app
+class Scoreboard [[java:spellit.ui.views.Scoreboard]] {
+	-Game game
+	-Player player1
+	-Player player2
+	-Text player1Score
+	-Text player2Score
+	+Scoreboard(GameController controller)
+	-void setupLayout()
+}
+class GridContainer [[java:spellit.ui.views.GridContainer]] {
+	-ObservableList<GridTile> tiles
+	+GridContainer(GameController controller)
+	-void setupLayout()
+	-void setupGrid()
+	+void onNextTurn()
+	+String getUserAgentStylesheet()
+	+boolean mouseIntersection(double mouseX, double mouseY)
+	+AbstractTile getIntersectingTile(double mouseX, double mouseY)
+}
+class GameController [[java:spellit.ui.controllers.GameController]] {
+}
+GridContainer --> "1" GameController : controller
+interface NextTurnListener [[java:spellit.core.events.NextTurnListener]] {
+}
+NextTurnListener <|.. GridContainer
+abstract class AbstractTile [[java:spellit.ui.views.AbstractTile]] {
+	+{static}DataFormat LETTER_LIST
+	#Text character
+	#Text points
+	#ObjectProperty<Letter> letterProperty
+	-double size
+	+AbstractTile(GameController controller, double size)
+	-void setupLayout()
+	+boolean hasLetter()
+	+Letter getLetter()
+	+void setLetter(Letter letter)
+	#void removeLetter()
+	#{abstract}void setDragTransferState()
+	#{abstract}void resetDragTransferState(Letter letter)
+	#void addLetterStyle()
+	+void setCharacter(char character)
+	#void setPoints(Integer points)
+	-WritableImage createSnapshot()
+	-void setupDragListeners()
+	+String getUserAgentStylesheet()
+}
+class GameController [[java:spellit.ui.controllers.GameController]] {
+}
+AbstractTile --> "1" GameController : controller
+@enduml
