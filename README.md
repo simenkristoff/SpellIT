@@ -19,6 +19,7 @@ Prosjektets moduler tilhører pom-filen [spellit](spellit/pom.xml), og er ytteli
 - **[spellit.report](spellit/report/README.md)** aggregerer resultat for testdekningsgrad i en samlet rapport.
 
 ### Forhåndsvisning av SpellIT
+
 ![Application preview](resources/spellit_preview.jpg)
 
 ## Bygging med Maven

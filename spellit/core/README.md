@@ -12,4 +12,5 @@ Modulen Core inneholder de sentrale klassene i applikasjonen og er uavhengig av 
 
 ### Klassediagram
 Nedenfor vises et forenklet klassediagram over Core-modulen
- ![Core classdiagram](architecture/core-classdiagram.png)
+
+![Core classdiagram](architecture/core-classdiagram.png)

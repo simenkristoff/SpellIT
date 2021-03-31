@@ -16,11 +16,13 @@ Ved oppstart av applikasjonen vises en **Splashscreen** mens applikasjonen initi
 
 ### Klassediagram
 Nedenfor vises et forenklet klassediagram over UI-modulen
- ![UI classdiagram](architecture/ui-classdiagram.png)
+
+![UI classdiagram](architecture/ui-classdiagram.png)
 
 ### Sekvensdiagram
 
- #### Lagring av spillinstans
+#### Lagring av spillinstans
 
- Følgende sekvensdiagram gir en oversikt over hvordan applikasjonen lagrer en spillinstans.
- ![Save game sequencediagram](architecture/savegame-sequencediagram.png)
+Følgende sekvensdiagram gir en oversikt over hvordan applikasjonen lagrer en spillinstans.
+
+![Save game sequencediagram](architecture/savegame-sequencediagram.png)
