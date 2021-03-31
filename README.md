@@ -25,7 +25,7 @@ Prosjektets moduler tilhører pom-filen [spellit](spellit/pom.xml), og er ytteli
 ## Bygging med Maven
 
 ### Dependencies
-- [(**jackson-databind**)](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind) - se-/derialisering av Java-objekter til JSON.
+- [(**jackson-databind**)](https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind) - (de)serialisering av Java-objekter til JSON.
 - [(**javafx-controls**)](https://mvnrepository.com/artifact/org.openjfx/javafx-controls) - JavaFx-bibliotek
 - [(**javafx-fxml**)](https://mvnrepository.com/artifact/org.openjfx/javafx-fxml) - bruk av FXML-filer
 - [(**junit-jupiter-api**)](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api) - JUnit API
